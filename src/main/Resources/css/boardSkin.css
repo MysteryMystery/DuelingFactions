@@ -1,0 +1,40 @@
+.background {
+    -fx-background-color: #333;
+}
+
+.boardField {
+    -fx-background-image: url("/skin/boardBack.jpg");
+    -fx-background-repeat: cover;
+}
+
+.boardWrapper {
+    -fx-background-color: rgba(137, 162, 183, 0.4);
+}
+
+.cardViewer {
+    -fx-background-color: white;
+}
+
+.spellSlot {
+    -fx-background-color: #272370;
+    -fx-border-color: #333;
+    -fx-border-width: 1px;
+}
+
+.monsterSlot {
+    -fx-background-color: #702f23;
+    -fx-border-color: #333;
+    -fx-border-width: 1px;
+}
+
+.deckSlot {
+    -fx-background-color: #21706c;
+    -fx-border-color: #333;
+    -fx-border-width: 1px;
+}
+
+.graveSlot {
+    -fx-background-color: #517023;
+    -fx-border-color: #333;
+    -fx-border-width: 1px;
+}

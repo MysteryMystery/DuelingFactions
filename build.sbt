@@ -14,4 +14,4 @@ libraryDependencies ++= Seq(
   "org.reflections" % "reflections" % "0.9.11"
 )
 
-assemblyJarName in assembly := s"DuelingFactions.jar"
+assemblyJarName in assembly := "DuelingFactions.jar"

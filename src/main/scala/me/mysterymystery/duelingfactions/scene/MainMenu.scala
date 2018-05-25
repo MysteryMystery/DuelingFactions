@@ -2,6 +2,6 @@ package me.mysterymystery.duelingfactions.scene
 
 import scalafx.scene.Scene
 
-class MainMenu extends Scene {
-
+object MainMenu extends SceneBuilder {
+  override def get: Scene = ???
 }

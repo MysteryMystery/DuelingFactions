@@ -21,4 +21,8 @@ class Graveyard(seq: Card*) extends Iterable[Card] with Seq[Card] {
   def += (card: Card): Unit = elems += card
 
   def ++= (graveyard: Graveyard): Unit = elems ++= graveyard
+
+  def -= (card: Card): Unit = elems -= card
+
+  def --= (graveyard: Graveyard): Unit = elems --= graveyard
 }
