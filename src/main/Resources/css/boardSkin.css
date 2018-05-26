@@ -3,7 +3,7 @@
 }
 
 .boardField {
-    -fx-background-image: url("/skin/boardBack.jpg");
+    /*-fx-background-image: url("/skin/boardBack.jpg");*/
     -fx-background-repeat: cover;
 }
 
@@ -16,25 +16,44 @@
 }
 
 .spellSlot {
-    -fx-background-color: #272370;
+    /*-fx-background-color: #272370;*/
     -fx-border-color: #333;
     -fx-border-width: 1px;
+
+    -fx-background-image: url("/skin/board/spellZone.png");
+    -fx-background-repeat: cover;
+    -fx-background-size: 120;
+    -fx-background-position: center center
 }
 
 .monsterSlot {
-    -fx-background-color: #702f23;
+    /*-fx-background-color: #702f23;*/
     -fx-border-color: #333;
     -fx-border-width: 1px;
+
+    -fx-background-image: url("/skin/board/monsterSlot.png");
+    -fx-background-repeat: cover;
+    -fx-background-size: 120;
+    -fx-background-position: center center
 }
 
 .deckSlot {
-    -fx-background-color: #21706c;
+    /*-fx-background-color: #21706c;*/
     -fx-border-color: #333;
     -fx-border-width: 1px;
+    -fx-background-image: url("/skin/board/deckSlot.png");
+    -fx-background-repeat: cover;
+    -fx-background-size: 120 90;
+    -fx-background-position: center center
 }
 
 .graveSlot {
-    -fx-background-color: #517023;
+    /*-fx-background-color: #517023;*/
     -fx-border-color: #333;
     -fx-border-width: 1px;
+
+    -fx-background-image: url("/skin/board/graveSlot.png");
+    -fx-background-repeat: cover;
+    -fx-background-size: 120 90;
+    -fx-background-position: center center
 }

@@ -88,6 +88,10 @@ object GameScene extends SceneBuilder {
     styleClass ++= Seq("deckSlot")
   }
 
+  /**
+    *
+    * @return the scene for the game board.
+    */
   override def get: Scene = {
     new Scene() {
 

@@ -2,7 +2,7 @@ name := "DuelingFactions"
 
 version := "0.1"
 
-scalaVersion := "2.12.5"
+scalaVersion := "2.12.4"
 
 resolvers ++= Seq(
   "bintray" at "http://jcenter.bintray.com"
