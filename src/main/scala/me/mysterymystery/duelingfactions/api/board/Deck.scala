@@ -13,14 +13,26 @@ class Deck (cards: Seq[Card]) extends Iterable[Card] with Seq[Card]{
   protected var elems: ArrayBuffer[Card] = ArrayBuffer[Card]()
   elems ++= cards
 
+  /**
+    * Shuffles the deck.
+    * @return The shuffled deck.
+    */
   def shuffle: Deck = new Deck(Random.shuffle(elems))
 
+  /**
+    * Takes a card from the deck.
+    * @return The card drawn.
+    */
   def draw: Card = {
     val toDraw = elems.last
     elems = elems.dropRight(1)
     toDraw
   }
 
+  /**
+    * Takes cards from the deck.
+    * @return The cards drawn.
+    */
   def draw(numberOfCards: Int): Seq[Card] = {
     var tr = ArrayBuffer[Card]()
     for (i <- 0 to numberOfCards){

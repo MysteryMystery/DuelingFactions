@@ -20,7 +20,7 @@
     -fx-border-color: #333;
     -fx-border-width: 1px;
 
-    -fx-background-image: url("/skin/board/spellZone.png");
+    -fx-background-image: url("/skin/board/spellSlot.png");
     -fx-background-repeat: cover;
     -fx-background-size: 120;
     -fx-background-position: center center

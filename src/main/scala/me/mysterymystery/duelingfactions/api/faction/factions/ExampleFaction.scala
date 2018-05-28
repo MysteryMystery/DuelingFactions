@@ -1,23 +1,24 @@
-package me.mysterymystery.duelingfactions.api.faction
+package me.mysterymystery.duelingfactions.api.faction.factions
 
+import me.mysterymystery.duelingfactions.api.faction.Faction
 import me.mysterymystery.duelingfactions.api.player.LifePoints
 
-trait Faction {
+class ExampleFaction extends Faction {
   /**
     *
     * @return The name of the hero in play.
     */
-  def heroName: String
+  override def heroName: String = ???
 
   /**
     *
     * @return The action which the hero performs such as attacking or gaining armour.
     */
-  def act: () => Unit
+  override def act: () => Unit = ???
 
   /**
     *
     * @return Lifepoints associated with the Faction.
     */
-  def lifepoints: LifePoints
+  override def lifepoints: LifePoints = new LifePoints(15000)
 }

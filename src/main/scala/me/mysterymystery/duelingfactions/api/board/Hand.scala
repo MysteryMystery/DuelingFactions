@@ -4,6 +4,9 @@ import me.mysterymystery.duelingfactions.api.card.Card
 
 import scala.collection.mutable.ArrayBuffer
 
+/**
+  *
+  */
 private[board] trait Hand extends Iterable[Card] with Seq[Card]{
   protected val linkedDeck: Deck
   protected val elems: ArrayBuffer[Card] = ArrayBuffer[Card]()

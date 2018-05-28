@@ -5,7 +5,10 @@ import scalafx.scene.{Scene, image}
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout._
 import javafx.scene.image
+import me.mysterymystery.duelingfactions.api.board.locations.MonsterZone
+import me.mysterymystery.duelingfactions.api.card.cardlist.ExampleCard
 import scalafx.scene.control.TextArea
+import me.mysterymystery.duelingfactions.api.config.Config
 
 object GameScene extends SceneBuilder {
 
@@ -35,14 +38,19 @@ object GameScene extends SceneBuilder {
   val sp = deckSlotPane
   sp.alignmentInParent = Pos.CenterRight
   val gp = graveSlotPane
+  val mz = new MonsterZone
   gp.alignmentInParent = Pos.CenterRight
   boardField.addRow(0, sp, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane)
   boardField.addRow(1, gp, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane)
-  boardField.addRow(2, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, graveSlotPane)
+  //boardField.addRow(2, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, graveSlotPane)
+  boardField.addRow(2, mz, new MonsterZone, new MonsterZone, new MonsterZone, new MonsterZone, graveSlotPane)
   boardField.addRow(3, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, deckSlotPane)
+  mz.occupy(new ExampleCard)
 
   val cardViewerPictureBox: ImageView = new ImageView{
     //image = new Image(new javafx.scene.image.Image())
+    fitWidth = 180
+    fitHeight = 240
   }
 
   val descBox: TextArea = new TextArea {
@@ -53,7 +61,7 @@ object GameScene extends SceneBuilder {
   /**
     * Card discriptions on card hover. Like in ygopro.
     */
-  val cardViewer: HBox = new HBox(){
+  val cardViewer: VBox = new VBox(){
     styleClass ++= Seq("cardViewer", "pane")
     minHeight = 500
     minWidth = 200
@@ -63,28 +71,28 @@ object GameScene extends SceneBuilder {
   }
 
   def monsterSlotPane: Pane = new Pane(){
-    prefHeight = 120
-    prefWidth = 120
+    prefHeight = Config.cardHeight
+    prefWidth = Config.cardHeight
     styleClass ++= Seq("monsterSlot")
   }
 
   def spellTrapSlotPane: Pane = new Pane(){
-    prefHeight = 120
-    prefWidth = 120
+    prefHeight = Config.cardHeight
+    prefWidth = Config.cardHeight
     styleClass ++= Seq("spellSlot")
   }
 
   def graveSlotPane: Pane = new Pane(){
-    prefHeight = 120
-    prefWidth = 90
-    maxWidth = 90
+    prefHeight = Config.cardHeight
+    prefWidth = Config.cardWidth
+    maxWidth = Config.cardWidth
     styleClass ++= Seq("graveSlot")
   }
 
   def deckSlotPane: Pane = new Pane(){
-    prefHeight = 120
-    prefWidth = 90
-    maxWidth = 90
+    prefHeight = Config.cardHeight
+    prefWidth = Config.cardWidth
+    maxWidth = Config.cardWidth
     styleClass ++= Seq("deckSlot")
   }
 
@@ -103,7 +111,11 @@ object GameScene extends SceneBuilder {
 
       root = new BorderPane() {
         styleClass ++= Seq("background", "pane")
-        top = lifePointsArea
+        top = new HBox(){
+          children = Seq(
+            lifePointsArea
+          )
+        }
         left = cardViewer
         center = new HBox(){
           children = Seq(boardField)
