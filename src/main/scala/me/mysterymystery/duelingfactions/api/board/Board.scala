@@ -72,6 +72,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
           //x =  e.getX
           //y = e.getY
           autoFix = true
+          autoHide = true
 
           content.add(new VBox(){
             children = Seq(
@@ -108,7 +109,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
             )
           }.delegate
           )
-          show(visual, e.getScreenX, e.getScreenY)
+          show(DuelingFactions.stage, e.getScreenX, e.getScreenY)
         }
       }
     }
@@ -144,6 +145,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
     * The board graphics. It is a val and not def due to observable values.
     */
   val visual: VBox = new VBox(){
+    styleClass ++= Seq("boardField")
     margin = Insets(20)
     prefWidth = (Config.cardHeight * 5) + Config.cardWidth + (5 * 5)
     vgrow = Priority.Never

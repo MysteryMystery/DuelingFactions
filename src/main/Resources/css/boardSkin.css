@@ -19,7 +19,7 @@
 }
 
 .boardField {
-    /*-fx-background-image: url("/skin/boardBack.jpg");*/
+    -fx-background-image: url("/skin/boardBack.jpg");
     -fx-background-repeat: cover;
 }
 
