@@ -45,4 +45,22 @@ override def cardText: String = "The monster effect here"
     * @return Name of the card.
     */
   override def name: String = "Example Monster"
+
+  /**
+    *
+    * @return Action to perform when card is drawn.
+    */
+  override def onDrawn: Board => Unit = _ => {}
+
+  /**
+    *
+    * @return Action to perform on the start of the turn.
+    */
+  override def onStartOfTurn: Board => Unit = _ => {}
+
+  /**
+    *
+    * @return Action to perform on the end of the turn.
+    */
+  override def onEndOfTurn: Board => Unit = _ => {}
 }

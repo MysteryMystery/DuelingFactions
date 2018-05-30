@@ -17,6 +17,7 @@ class GraveyardZone extends BoardZone {
 
   def view: Unit = {
     //Launch pane to view graveyard
+    //new Popup!
   }
 
   def + (card: Card): Unit = occupiedWith += card

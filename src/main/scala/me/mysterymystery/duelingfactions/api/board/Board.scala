@@ -1,19 +1,25 @@
 package me.mysterymystery.duelingfactions.api.board
 
+import javafx.event.ActionEvent
 import javafx.scene.image
 import javafx.scene.input.MouseEvent
-import me.mysterymystery.duelingfactions.api.Exception.BoardFullException
+import me.mysterymystery.duelingfactions.DuelingFactions
+import me.mysterymystery.duelingfactions.api.exception.BoardFullException
 import me.mysterymystery.duelingfactions.api.board.faction.Faction
 import me.mysterymystery.duelingfactions.api.board.locations._
 import me.mysterymystery.duelingfactions.api.card.cardcollection.{Deck, HiddenHand, VisibleHand}
-import me.mysterymystery.duelingfactions.api.card.{Card, MonsterCard, SpellOrTrapCard}
+import me.mysterymystery.duelingfactions.api.card._
 import me.mysterymystery.duelingfactions.api.config.Config
 import me.mysterymystery.duelingfactions.api.player.LifePoints
 import me.mysterymystery.duelingfactions.scene.GameScene
 import scalafx.geometry.{Insets, Orientation, Pos}
-import scalafx.scene.control.Label
+import scalafx.scene.control.{Button, Label}
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout._
+import scalafx.scene.paint.Color
+import scalafx.scene.shape.Circle
+import scalafx.stage.Popup
+
 import scala.reflect.runtime.{universe => ru}
 
 class Board(private val myFaction: Faction, private var myDeck: Deck, private val theirFaction: Faction, private var theirDeck: Deck) {
@@ -41,31 +47,81 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
   myLifePoints - 1000
 
   /**
+    * All children and their actions of the visible hand.
+    * @return All children
+    */
+  def visibleHandBoxChildren: Seq[ImageView] = myHand.map(i => {
+    new ImageView(i.sprite){
+      fitWidth = Config.cardWidth
+      fitHeight = Config.cardHeight
+      onMouseEntered = (e: MouseEvent) => {
+        fitWidth = Config.cardWidth + 10
+        fitHeight = Config.cardHeight + 10
+
+        GameScene.cardViewerPictureBox.image = i.sprite
+        GameScene.descBox.text = i.cardText
+      }
+      onMouseExited  = (e: MouseEvent) => {
+        fitWidth = Config.cardWidth
+        fitHeight = Config.cardHeight
+
+        GameScene.descBox.text = ""
+      }
+      onMouseClicked = (e: MouseEvent) => {
+        val pop = new Popup(){
+          //x =  e.getX
+          //y = e.getY
+          autoFix = true
+
+          content.add(new VBox(){
+            children = Seq(
+              if (/*i.getClass.isAssignableFrom(classOf[SpellOrTrapCard])*/ i.isInstanceOf[SpellOrTrapCard])
+                new Button("Cast") {
+                  styleClass = Seq("summonButton")
+                  onAction = (e: ActionEvent) => {
+                    myHand -= i
+                    summonSpellTrap(i.asInstanceOf[SpellOrTrapCard], BoardSides.MySide)
+                    if (i.isInstanceOf[SpellCard]){
+                      i.asInstanceOf[SpellCard].action
+                      sendToMyGraveyard(i)
+                    }
+                    hide()
+                  }
+                }
+              else
+                new Button("Summon") {
+                  styleClass = Seq("summonButton")
+                  onAction = (e: ActionEvent) => {
+                    myHand -= i
+                    summonMonster(i.asInstanceOf[MonsterCard], BoardSides.MySide)
+                    visibleHandBox.children = visibleHandBoxChildren
+                    hide()
+                  }
+                },
+              new Button("Cancel"){
+                styleClass = Seq("summonButton")
+                onAction = (e: ActionEvent) => {
+                  hide()
+                }
+              }
+            )
+          }.delegate
+          )
+
+          show(visual, e.getScreenX, e.getScreenY)
+        }
+
+      }
+    }
+  })
+
+  /**
     * On draw -> needs refreshing
     */
   val visibleHandBox: FlowPane = new FlowPane(){
     hgap = -10
-    children = myHand.map(i => {
-      new ImageView(i.sprite){
-        fitWidth = Config.cardWidth
-        fitHeight = Config.cardHeight
-        onMouseEntered = (e: MouseEvent) => {
-          fitWidth = Config.cardWidth + 10
-          fitHeight = Config.cardHeight + 10
-
-          GameScene.cardViewerPictureBox.image = i.sprite
-          GameScene.descBox.text = i.cardText
-        }
-        onMouseExited  = (e: MouseEvent) => {
-          fitWidth = Config.cardWidth
-          fitHeight = Config.cardHeight
-
-          GameScene.descBox.text = ""
-        }
-      }
-    })
+    children = visibleHandBoxChildren
   }
-  myHand.draw()
 
   val invisibleHandBox: FlowPane = new FlowPane(){
     hgap = -10
@@ -161,6 +217,10 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
       else
         throw BoardFullException()
     }
+  }
+
+  def sendToMyGraveyard(card: Card): Unit = {
+
   }
 
   object BoardSides extends Enumeration {

@@ -23,14 +23,14 @@ object DuelingFactions extends JFXApp {
   }
 
   var mediaPlayer: MediaPlayer = _
-  playSound("Storytime.m4a")
+  //playSound("Storytime.m4a")
 
   new Deck(Seq(new ExampleCard))
 
   def playSound(soundName: String): Unit = {
     try{
       mediaPlayer.stop()
-    } catch {case _ =>}
+    } catch {case _: Throwable =>}
     val mf = getClass.getResource(s"/music/$soundName").toExternalForm
     val sound: Media = new Media(new javafx.scene.media.Media(mf))
     mediaPlayer = new MediaPlayer(sound)

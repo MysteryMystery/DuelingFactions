@@ -19,7 +19,7 @@ class MonsterZone extends BoardZone {
     GameScene.descBox.text = occupiedWith.cardText
   }
   onMouseExited = (e: input.MouseEvent) => {
-    GameScene.cardViewerPictureBox.image = new Image(new image.Image(getClass.getResource("/sprites/CardBack.png").toExternalForm))
+    GameScene.cardViewerPictureBox.image = new Image(new image.Image(getClass.getResourceAsStream("/sprites/CardBack.png")))
     GameScene.descBox.text = ""
   }
 

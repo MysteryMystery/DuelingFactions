@@ -1,4 +1,4 @@
-package me.mysterymystery.duelingfactions.api.Exception
+package me.mysterymystery.duelingfactions.api.exception
 
 /**
   * Thrown when the board is full so a card cannot be placed.

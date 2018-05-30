@@ -8,8 +8,8 @@ import org.yaml.snakeyaml.Yaml
 import scala.collection.mutable
 
 object Config {
-    private val configFile: File = new File(getClass.getResource("/config/config.yml").getPath)
-    private val conf: mutable.Map[String, Object] = new Yaml().load(new FileInputStream(configFile)).asInstanceOf[java.util.Map[String, Object]].asScala
+    private val configFile: InputStream = getClass.getResourceAsStream("/config/config.yml")
+    private val conf: mutable.Map[String, Object] = new Yaml().load(configFile).asInstanceOf[java.util.Map[String, Object]].asScala
 
     def fieldZoneHeightWidth: Int = conf("cardFieldHeightWidth").asInstanceOf[Int]
     def cardHeight: Int = conf("cardHeight").asInstanceOf[Int]

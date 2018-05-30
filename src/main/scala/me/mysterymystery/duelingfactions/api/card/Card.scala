@@ -10,7 +10,7 @@ trait Card {
     * Gets the sprite from resources.
     * @return sprite for the card.
     */
-  protected def produceSprite(name: String): Image = new Image(new javafx.scene.image.Image(getClass.getResource(s"/sprites/$name").toExternalForm))
+  protected def produceSprite(name: String): Image = new Image(new javafx.scene.image.Image(getClass.getResourceAsStream(s"/sprites/$name")))
 
   /**
     *
@@ -28,7 +28,7 @@ trait Card {
     * The effect that the card performs.
     * @return
     */
-  def action: (Board) => Unit
+  def action: Board => Unit
 
   /**
     * Card Description can either be geenral lore, or if the card has an effect, the effect.
@@ -43,4 +43,21 @@ trait Card {
   def name: String
 
   //Could add stuff lie onDraw, onBattle etc and then game loop updates and plays all these effects.
+  /**
+    *
+    * @return Action to perform when card is drawn.
+    */
+  def onDrawn: Board => Unit
+
+  /**
+    *
+    * @return Action to perform on the start of the turn.
+    */
+  def onStartOfTurn: Board => Unit
+
+  /**
+    *
+    * @return Action to perform on the end of the turn.
+    */
+  def onEndOfTurn: Board => Unit
 }

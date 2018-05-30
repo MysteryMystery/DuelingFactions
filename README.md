@@ -4,6 +4,8 @@ DUELING FACTIONS
 PLAN
 ----
 
+#### http://prntscr.com/jolpr9
+
 ### GamePlay Plan
 
 A game based on hearthstone and YU-GI-OH!. 
