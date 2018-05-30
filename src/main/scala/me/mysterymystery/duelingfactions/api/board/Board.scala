@@ -81,6 +81,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
                   onAction = (e: ActionEvent) => {
                     myHand -= i
                     summonSpellTrap(i.asInstanceOf[SpellOrTrapCard], BoardSides.MySide)
+                    visibleHandBox.children = visibleHandBoxChildren
                     if (i.isInstanceOf[SpellCard]){
                       i.asInstanceOf[SpellCard].action
                       sendToMyGraveyard(i)
@@ -107,10 +108,8 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
             )
           }.delegate
           )
-
           show(visual, e.getScreenX, e.getScreenY)
         }
-
       }
     }
   })
