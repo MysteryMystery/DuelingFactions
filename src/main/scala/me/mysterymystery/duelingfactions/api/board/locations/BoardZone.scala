@@ -19,4 +19,6 @@ trait BoardZone extends StackPane{
     * @return Whether this zone contains a card or not.
     */
   def occupied: Boolean
+
+  def peek: Option[Card]
 }

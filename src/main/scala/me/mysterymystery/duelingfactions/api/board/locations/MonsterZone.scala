@@ -42,5 +42,5 @@ class MonsterZone extends BoardZone {
     *
     * @return The card contained within
     */
-  def peek: MonsterCard = occupiedWith
+  def peek: Option[MonsterCard] = Some(occupiedWith)
 }

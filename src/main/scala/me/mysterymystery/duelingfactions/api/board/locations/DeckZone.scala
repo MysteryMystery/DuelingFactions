@@ -32,4 +32,5 @@ class DeckZone(private var occupiedWith: Deck = new Deck(Seq()) ) extends BoardZ
 
   override def occupied: Boolean = true
 
+  override def peek: Option[Card] = None
 }

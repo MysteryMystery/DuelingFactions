@@ -86,6 +86,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
                     visibleHandBox.children = visibleHandBoxChildren
                     //FIXME doesnt work -> check for how to check that SpellTrapCard is SpellCard
                     try {
+                      //FIXME  needs to be .asInstanceOf[SpellCard].action(BOARD)
                       i.asInstanceOf[SpellCard].action
                       sendToMyGraveyardFromMyBoard(i)
                     } catch {case _: Throwable => }

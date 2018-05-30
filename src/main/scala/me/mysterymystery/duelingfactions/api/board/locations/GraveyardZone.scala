@@ -81,4 +81,6 @@ class GraveyardZone extends BoardZone {
   def - (card: Card): Unit = occupiedWith -= card
 
   override def occupied: Boolean = true
+
+  override def peek: Option[Card] = None
 }

@@ -40,5 +40,5 @@ class SpellTrapZone extends BoardZone {
     *
     * @return The card contained within
     */
-  def peek: SpellOrTrapCard = occupiedWith
+  def peek: Option[SpellOrTrapCard] = Some(occupiedWith)
 }
