@@ -1,13 +1,19 @@
 package me.mysterymystery.duelingfactions.scene
 
+import javafx.event.ActionEvent
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.{Scene, image}
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout._
 import javafx.scene.image
+import me.mysterymystery.duelingfactions.api.board.faction.factions.ExampleFaction
+import me.mysterymystery.duelingfactions.api.board.Board
 import me.mysterymystery.duelingfactions.api.board.locations.MonsterZone
-import me.mysterymystery.duelingfactions.api.card.cardlist.ExampleCard
-import scalafx.scene.control.TextArea
+import me.mysterymystery.duelingfactions.api.card.deck.StubDeck
+import me.mysterymystery.duelingfactions.api.card.cardcollection.Deck
+import me.mysterymystery.duelingfactions.api.card.cardlist.{ExampleCard, ExampleSpell}
+import me.mysterymystery.duelingfactions.api.card.deck.StubDeck
+import scalafx.scene.control.{Button, TextArea}
 import me.mysterymystery.duelingfactions.api.config.Config
 
 object GameScene extends SceneBuilder {
@@ -18,34 +24,6 @@ object GameScene extends SceneBuilder {
   val lifePointsArea: VBox = new VBox(){
     minHeight = 50
   }
-
-  /**
-    * holds the board, cards on it.
-    */
-  val boardField: GridPane = new GridPane(){
-    gridLinesVisible = true
-    styleClass ++= Seq("boardField", "pane")
-    prefHeight = 600
-    prefWidth = 800
-    minHeight = 600
-    minWidth = 800
-    maxHeight = 600
-    maxWidth = 800
-    alignmentInParent = Pos.Center
-    hgap = 5
-    vgap = 5
-  }
-  val sp = deckSlotPane
-  sp.alignmentInParent = Pos.CenterRight
-  val gp = graveSlotPane
-  val mz = new MonsterZone
-  gp.alignmentInParent = Pos.CenterRight
-  boardField.addRow(0, sp, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane)
-  boardField.addRow(1, gp, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane)
-  //boardField.addRow(2, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, monsterSlotPane, graveSlotPane)
-  boardField.addRow(2, mz, new MonsterZone, new MonsterZone, new MonsterZone, new MonsterZone, graveSlotPane)
-  boardField.addRow(3, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, spellTrapSlotPane, deckSlotPane)
-  mz.occupy(new ExampleCard)
 
   val cardViewerPictureBox: ImageView = new ImageView{
     //image = new Image(new javafx.scene.image.Image())
@@ -70,31 +48,8 @@ object GameScene extends SceneBuilder {
     children = Seq(cardViewerPictureBox, descBox)
   }
 
-  def monsterSlotPane: Pane = new Pane(){
-    prefHeight = Config.cardHeight
-    prefWidth = Config.cardHeight
-    styleClass ++= Seq("monsterSlot")
-  }
-
-  def spellTrapSlotPane: Pane = new Pane(){
-    prefHeight = Config.cardHeight
-    prefWidth = Config.cardHeight
-    styleClass ++= Seq("spellSlot")
-  }
-
-  def graveSlotPane: Pane = new Pane(){
-    prefHeight = Config.cardHeight
-    prefWidth = Config.cardWidth
-    maxWidth = Config.cardWidth
-    styleClass ++= Seq("graveSlot")
-  }
-
-  def deckSlotPane: Pane = new Pane(){
-    prefHeight = Config.cardHeight
-    prefWidth = Config.cardWidth
-    maxWidth = Config.cardWidth
-    styleClass ++= Seq("deckSlot")
-  }
+  val b : Board = new Board(new ExampleFaction(), StubDeck, new ExampleFaction, new Deck(Seq()))
+  b.summonMonster(new ExampleCard, b.BoardSides.MySide)
 
   /**
     *
@@ -118,7 +73,19 @@ object GameScene extends SceneBuilder {
         }
         left = cardViewer
         center = new HBox(){
-          children = Seq(boardField)
+          children = Seq(/*boardField*/
+            b.visual,
+            new VBox(){
+              children = Seq(
+                new Button("Summon A card! (testing)"){
+                  onAction = (e: ActionEvent) => b.summonMonster(new ExampleCard, b.BoardSides.MySide)
+                },
+                new Button("Summon A Spell! (testing)"){
+                  onAction = (e: ActionEvent) => b.summonSpellTrap(new ExampleSpell, b.BoardSides.MySide)
+                }
+              )
+            }
+          )
           styleClass ++= Seq("boardWrapper")
           alignmentInParent = Pos.Center
         }

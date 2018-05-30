@@ -19,4 +19,9 @@ A game based on hearthstone and YU-GI-OH!.
 ** Controls game flow
 * Make Cards and board and everything
 
+### Roadmap
+
+Hand is linked to Deck 
+A faction contains their side of the board.
+
 

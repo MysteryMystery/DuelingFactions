@@ -2,6 +2,22 @@
     -fx-background-color: #333;
 }
 
+.lifePointsBar {
+    -fx-background-color: #ccc;
+}
+
+.lifePointsBar .track{
+    -fx-background-color: linear-gradient(white, yellow, gold, green, blue, purple, red, black);
+    -fx-background-insets: 20;
+    -fx-background-radius: 6, 6, 6, 6;
+}
+
+.lifePointsBar .bar {
+    -fx-background-color: linear-gradient(white, yellow, gold, green, blue, purple, red, black);
+    -fx-background-insets: 30, 30, 30, 30;
+    -fx-background-radius: 4, 4, 4, 4;
+}
+
 .boardField {
     /*-fx-background-image: url("/skin/boardBack.jpg");*/
     -fx-background-repeat: cover;

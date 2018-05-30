@@ -1,6 +1,7 @@
 package me.mysterymystery.duelingfactions.api.card.cardlist
 
 import javafx.scene.image
+import me.mysterymystery.duelingfactions.api.board.Board
 import me.mysterymystery.duelingfactions.api.card.{MonsterCard, MonsterTypes}
 import me.mysterymystery.duelingfactions.api.card.MonsterTypes.MonsterType
 import scalafx.scene.image.{Image, ImageView}
@@ -30,7 +31,7 @@ class ExampleCard extends MonsterCard{
     *
     * @return
     */
-  override def action: () => Unit = () => {}
+  override def action: (Board) => Unit = (b) => {}
 
   /**
     * Card Description can either be geenral lore, or if the card has an effect, the effect.

@@ -1,5 +1,7 @@
 package me.mysterymystery.duelingfactions.api.card
 
+import me.mysterymystery.duelingfactions.api.board.Board
+import me.mysterymystery.duelingfactions.api.config.Config
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.Pane
 
@@ -17,10 +19,16 @@ trait Card {
   def sprite: Image
 
   /**
+    *
+    * @return Image view
+    */
+  def imageView: ImageView = new ImageView(sprite) {fitWidth = Config.cardWidth; fitHeight = Config.cardHeight}
+
+  /**
     * The effect that the card performs.
     * @return
     */
-  def action: () => Unit
+  def action: (Board) => Unit
 
   /**
     * Card Description can either be geenral lore, or if the card has an effect, the effect.
@@ -33,4 +41,6 @@ trait Card {
     * @return Name of the card.
     */
   def name: String
+
+  //Could add stuff lie onDraw, onBattle etc and then game loop updates and plays all these effects.
 }
