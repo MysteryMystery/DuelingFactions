@@ -81,4 +81,12 @@
     -fx-background-color: rgba(46, 138, 138, 0.7);
     -fx-font: 15px Tahoma;
     -fx-text-fill: black;
+ }
+
+.graveyardPane {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-background-color: rgba(46, 138, 138, 0.7);
+    -fx-font: 15px Tahoma;
+    -fx-text-fill: black;
 }

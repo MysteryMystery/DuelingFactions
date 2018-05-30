@@ -1,6 +1,7 @@
 package me.mysterymystery.duelingfactions.api.board.locations
 
 import javafx.scene.{image, input}
+import me.mysterymystery.duelingfactions.api.card.Card
 import me.mysterymystery.duelingfactions.api.card.cardcollection.Deck
 import me.mysterymystery.duelingfactions.api.config.Config
 import me.mysterymystery.duelingfactions.scene.GameScene
@@ -30,4 +31,5 @@ class DeckZone(private var occupiedWith: Deck = new Deck(Seq()) ) extends BoardZ
   def occupy(deck: Deck): Unit = occupiedWith = deck
 
   override def occupied: Boolean = true
+
 }

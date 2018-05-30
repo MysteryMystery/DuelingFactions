@@ -9,6 +9,7 @@ import me.mysterymystery.duelingfactions.api.board.faction.Faction
 import me.mysterymystery.duelingfactions.api.board.locations._
 import me.mysterymystery.duelingfactions.api.card.cardcollection.{Deck, HiddenHand, VisibleHand}
 import me.mysterymystery.duelingfactions.api.card._
+import me.mysterymystery.duelingfactions.api.card.cardlist.ExampleCard
 import me.mysterymystery.duelingfactions.api.config.Config
 import me.mysterymystery.duelingfactions.api.player.LifePoints
 import me.mysterymystery.duelingfactions.scene.GameScene
@@ -68,7 +69,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
         GameScene.descBox.text = ""
       }
       onMouseClicked = (e: MouseEvent) => {
-        val pop = new Popup(){
+        new Popup(){
           //x =  e.getX
           //y = e.getY
           autoFix = true
@@ -83,10 +84,11 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
                     myHand -= i
                     summonSpellTrap(i.asInstanceOf[SpellOrTrapCard], BoardSides.MySide)
                     visibleHandBox.children = visibleHandBoxChildren
-                    if (i.isInstanceOf[SpellCard]){
+                    //FIXME doesnt work -> check for how to check that SpellTrapCard is SpellCard
+                    try {
                       i.asInstanceOf[SpellCard].action
-                      sendToMyGraveyard(i)
-                    }
+                      sendToMyGraveyardFromMyBoard(i)
+                    } catch {case _: Throwable => }
                     hide()
                   }
                 }
@@ -99,13 +101,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
                     visibleHandBox.children = visibleHandBoxChildren
                     hide()
                   }
-                },
-              new Button("Cancel"){
-                styleClass = Seq("summonButton")
-                onAction = (e: ActionEvent) => {
-                  hide()
                 }
-              }
             )
           }.delegate
           )
@@ -220,8 +216,22 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
     }
   }
 
-  def sendToMyGraveyard(card: Card): Unit = {
-
+  def sendToMyGraveyardFromMyBoard(card: Card): Unit = {
+    card match {
+      case _: MonsterCard =>
+        val zones = mySide.filter(_.isInstanceOf[MonsterZone]).map(_.asInstanceOf[MonsterZone])
+        if (zones.exists(_.peek == card)) {
+          zones.head.deoccupy
+          myGraveyardZone.+(card)
+        }
+      case _: SpellOrTrapCard =>
+        val zones = mySide.filter(_.isInstanceOf[SpellTrapZone]).map(_.asInstanceOf[SpellTrapZone])
+        if (zones.exists(_.peek == card)) {
+          zones.head.deoccupy
+          myGraveyardZone.+(card)
+        }
+      case _ =>
+    }
   }
 
   object BoardSides extends Enumeration {
@@ -230,4 +240,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
       MySide,
       TheirSide = Value
   }
+
+  summonMonster(new ExampleCard, BoardSides.MySide)
+  sendToMyGraveyardFromMyBoard(new ExampleCard)
 }

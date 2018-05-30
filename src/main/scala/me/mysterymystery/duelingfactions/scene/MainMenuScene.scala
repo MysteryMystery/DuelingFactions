@@ -2,9 +2,11 @@ package me.mysterymystery.duelingfactions.scene
 
 import me.mysterymystery.duelingfactions.DuelingFactions
 import javafx.event
+import javafx.scene.image
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
 import scalafx.scene.control.Button
+import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
 
 object MainMenuScene extends SceneBuilder {
@@ -12,6 +14,10 @@ object MainMenuScene extends SceneBuilder {
 
     new Scene() {
       root = new BorderPane() {
+        top = new ImageView(new Image(new image.Image(getClass.getResourceAsStream("/skin/logo.png")))){
+          fitWidth = 400
+          fitHeight = 100
+        }
         right = new VBox(){
           prefWidth = 300
           children = Seq(

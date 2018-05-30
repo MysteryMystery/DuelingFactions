@@ -14,5 +14,9 @@ trait BoardZone extends StackPane{
   prefHeight = Config.cardHeight
   prefWidth = Config.cardHeight
 
+  /**
+    *
+    * @return Whether this zone contains a card or not.
+    */
   def occupied: Boolean
 }

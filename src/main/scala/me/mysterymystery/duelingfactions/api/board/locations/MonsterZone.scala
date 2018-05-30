@@ -15,8 +15,10 @@ class MonsterZone extends BoardZone {
   private var occupiedWith: MonsterCard = _
 
   onMouseEntered = (e: input.MouseEvent) => {
-    GameScene.cardViewerPictureBox.image = occupiedWith.sprite
-    GameScene.descBox.text = occupiedWith.cardText
+    if (occupiedWith != null){
+      GameScene.cardViewerPictureBox.image = occupiedWith.sprite
+      GameScene.descBox.text = occupiedWith.cardText
+    }
   }
   onMouseExited = (e: input.MouseEvent) => {
     GameScene.cardViewerPictureBox.image = new Image(new image.Image(getClass.getResourceAsStream("/sprites/CardBack.png")))
@@ -35,4 +37,10 @@ class MonsterZone extends BoardZone {
     occupiedWith = null
     c
   }
+
+  /**
+    *
+    * @return The card contained within
+    */
+  def peek: MonsterCard = occupiedWith
 }

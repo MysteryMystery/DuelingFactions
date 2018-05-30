@@ -24,7 +24,7 @@ object DuelingFactions extends JFXApp {
   }
 
   var mediaPlayer: MediaPlayer = _
-  playSound("MainMusic.wav")
+  //playSound("MainMusic.wav")
 
   new Deck(Seq(new ExampleCard))
 

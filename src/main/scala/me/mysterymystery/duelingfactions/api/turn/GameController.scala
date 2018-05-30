@@ -17,4 +17,9 @@ class GameController (board: Board) {
 
   def endPhase: Unit = {
   }
+
+  def doLoop: Unit = {
+    //for each zone containing card, register popup allowing attacking etc.
+    // then de register those who dont
+  }
 }
