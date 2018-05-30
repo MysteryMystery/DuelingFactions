@@ -19,6 +19,7 @@ object DuelingFactions extends JFXApp {
   stage = new PrimaryStage{
     title = "Dueling Factions"
     scene = MainMenuScene.get
+    icons.add(new Image(new image.Image(getClass.getResourceAsStream("/skin/icon.png"))))
     //initStyle(StageStyle.Undecorated)
   }
 
