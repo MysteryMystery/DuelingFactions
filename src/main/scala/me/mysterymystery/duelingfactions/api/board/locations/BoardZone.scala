@@ -17,35 +17,6 @@ trait BoardZone extends StackPane{
   prefHeight = Config.cardHeight
   prefWidth = Config.cardHeight
 
-  onMouseClicked = (e: MouseEvent) => if (occupied) new Popup(){
-    autoFix = true
-    autoHide = true
-
-    content.add(new VBox(){
-      children = Seq(
-        if (peek.isDefined && peek.get.isInstanceOf[SpellOrTrapCard])
-          new Button("Activate") {
-            styleClass = Seq("summonButton")
-            onAction = (e: ActionEvent) => {
-
-              hide()
-            }
-          }
-        else /*if (peek.isDefined && peek.get.isInstanceOf[MonsterCard])*/ {
-          new Button("Attack") {
-            styleClass = Seq("summonButton")
-            onAction = (e: ActionEvent) => {
-              //Get attack target on next click then attack
-              hide()
-            }
-          }
-        }
-      )
-    }.delegate
-    )
-    show(DuelingFactions.stage, e.getScreenX, e.getScreenY)
-  }
-
   /**
     *
     * @return Whether this zone contains a card or not.
