@@ -63,4 +63,16 @@ override def cardText: String = "The monster effect here"
     * @return Action to perform on the end of the turn.
     */
   override def onEndOfTurn: Board => Unit = _ => {}
+
+  /**
+    *
+    * @return Attack points for the monster.
+    */
+  override def attackPoints: Int = 1200
+
+  /**
+    *
+    * @return Defense points for the monster.
+    */
+  override def defensePoints: Int = 1122
 }

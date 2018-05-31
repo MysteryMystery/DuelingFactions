@@ -14,4 +14,16 @@ trait MonsterCard extends Card{
     * @return Type of the monster.
     */
   def monsterType: MonsterType
+
+  /**
+    *
+    * @return Attack points for the monster.
+    */
+  def attackPoints: Int
+
+  /**
+    *
+    * @return Defense points for the monster.
+    */
+  def defensePoints: Int
 }
