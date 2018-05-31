@@ -4,5 +4,5 @@ import scalafx.scene.Scene
 
 
 trait SceneBuilder {
-  def get: Scene
+  val get: Scene
 }

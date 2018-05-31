@@ -10,9 +10,7 @@ import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
 
 object MainMenuScene extends SceneBuilder {
-  override def get: Scene = {
-
-    new Scene() {
+  override val get: Scene = new Scene() {
       root = new BorderPane() {
         top = new ImageView(new Image(new image.Image(getClass.getResourceAsStream("/skin/logo.png")))){
           fitWidth = 400
@@ -35,5 +33,5 @@ object MainMenuScene extends SceneBuilder {
         getClass.getResource("/css/cardSkin.css").toExternalForm
       )
     }
-  }
+
 }

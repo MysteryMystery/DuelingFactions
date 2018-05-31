@@ -9,6 +9,7 @@ import javafx.scene.image
 import me.mysterymystery.duelingfactions.api.board.faction.factions.ExampleFaction
 import me.mysterymystery.duelingfactions.api.board.Board
 import me.mysterymystery.duelingfactions.api.board.locations.MonsterZone
+import me.mysterymystery.duelingfactions.api.card.Card
 import me.mysterymystery.duelingfactions.api.card.deck.StubDeck
 import me.mysterymystery.duelingfactions.api.card.cardcollection.Deck
 import me.mysterymystery.duelingfactions.api.card.cardlist.{ExampleCard, ExampleSpell}
@@ -55,8 +56,7 @@ object GameScene extends SceneBuilder {
     *
     * @return the scene for the game board.
     */
-  override def get: Scene = {
-    new Scene() {
+  override val get: Scene = new Scene() {
 
       stylesheets.addAll(
         getClass.getResource("/css/appSkin.css").toExternalForm,
@@ -91,5 +91,9 @@ object GameScene extends SceneBuilder {
         }
       }
     }
+
+  def setDescriptionBox(card: Card): Unit = {
+    cardViewerPictureBox.image = card.sprite
+    descBox.text = card.cardText
   }
 }
