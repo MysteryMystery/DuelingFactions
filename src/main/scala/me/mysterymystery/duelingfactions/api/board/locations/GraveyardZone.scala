@@ -77,7 +77,7 @@ class GraveyardZone extends BoardZone {
           new Button("View") {
             styleClass = Seq("summonButton")
             onAction = (e: ActionEvent) => {
-              newPop.show(DuelingFactions.stage, DuelingFactions.stage.x.value + DuelingFactions.stage.width.value / 2d, DuelingFactions.stage.y.value + DuelingFactions.stage.height.value / 2d)
+              newPop.show(DuelingFactions.stage, (DuelingFactions.stage.x.value + DuelingFactions.stage.width.value / 2d) - width.value/2d, (DuelingFactions.stage.y.value + DuelingFactions.stage.height.value / 2d) - height.value/2d)
               hide()
             }
           }
