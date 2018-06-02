@@ -1,4 +1,4 @@
-DUELING FACTIONS
+DUELING FACTIONS [![Build Status](https://travis-ci.com/MysteryMystery/DuelingFactions.svg?token=qm8QotxTnxjPwZx7Mudu&branch=master)](https://travis-ci.com/MysteryMystery/DuelingFactions)
 ================
 
 PLAN
