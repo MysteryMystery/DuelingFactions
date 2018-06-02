@@ -9,7 +9,8 @@ before_deploy:
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
-  api_key: "VzBvAiuUlpR9TUW0_-CYig"
+  #api_key: "VzBvAiuUlpR9TUW0_-CYig"
   file: "DuelingFactions.jar"
+  api_key: $GITHUB_OAUTH_TOKEN
   skip_cleanup: true
   overwrite: true
