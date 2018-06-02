@@ -42,8 +42,8 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
     theirGraveyardZone, new MonsterZone  , new MonsterZone  , new MonsterZone  , new MonsterZone  , new MonsterZone
   )
 
-  private val myHand: VisibleHand = new VisibleHand(myDeck)
-  private val theirHand: HiddenHand = new HiddenHand(theirDeck)
+  val myHand: VisibleHand = new VisibleHand(myDeck)
+  val theirHand: HiddenHand = new HiddenHand(theirDeck)
 
   myHand.draw(6)
   myLifePoints - 1000
@@ -239,7 +239,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
 
   def sendToGraveyard(card: Card, side: BoardSides.BoardSide, fromWhere: BoardLocations.BoardLocation): Unit = {
     if (fromWhere == BoardLocations.MyField || fromWhere == BoardLocations.TheirField){
-      var s: List[BoardZone] = _
+      var s: List[BoardZone] = null
       side match {
         case BoardSides.MySide => s = mySide
         case BoardSides.TheirSide => s = theirSide

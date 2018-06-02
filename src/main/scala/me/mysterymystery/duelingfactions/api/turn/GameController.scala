@@ -7,7 +7,7 @@ import me.mysterymystery.duelingfactions.api.util.PimpedOption._
   */
 @Deprecated
 class GameController (board: Board) {
-
+/*
   def drawPhase: Unit = {
 
   }
@@ -29,4 +29,5 @@ class GameController (board: Board) {
     endPhase
     //blah
   }
+  */
 }
