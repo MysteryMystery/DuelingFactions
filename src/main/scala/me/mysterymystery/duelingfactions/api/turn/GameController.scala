@@ -5,6 +5,7 @@ import me.mysterymystery.duelingfactions.api.util.PimpedOption._
 /**
   * Builds the board and controls the game flow.
   */
+@Deprecated
 class GameController (board: Board) {
 
   def drawPhase: Unit = {

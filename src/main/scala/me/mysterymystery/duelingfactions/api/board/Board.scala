@@ -13,6 +13,7 @@ import me.mysterymystery.duelingfactions.api.card.cardlist.ExampleCard
 import me.mysterymystery.duelingfactions.api.config.Config
 import me.mysterymystery.duelingfactions.api.player.LifePoints
 import me.mysterymystery.duelingfactions.scene.GameScene
+import me.mysterymystery.duelingfactions.api.util.PimpedOption._
 import scalafx.geometry.{Insets, Orientation, Pos}
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.image.{Image, ImageView}
@@ -24,25 +25,25 @@ import scalafx.stage.Popup
 import scala.reflect.runtime.{universe => ru}
 
 class Board(private val myFaction: Faction, private var myDeck: Deck, private val theirFaction: Faction, private var theirDeck: Deck) {
-  val myLifePoints = myFaction.lifepoints
-  val theirLifePoints = theirFaction.lifepoints
+  private val myLifePoints = myFaction.lifepoints
+  private val theirLifePoints = theirFaction.lifepoints
 
-  val myGraveyardZone = new GraveyardZone
-  val myDeckZone = new DeckZone(myDeck)
-  val mySide = List[BoardZone](
+  private val myGraveyardZone = new GraveyardZone
+  private val myDeckZone = new DeckZone(myDeck)
+  private val mySide = List[BoardZone](
     new MonsterZone  , new MonsterZone  , new MonsterZone  , new MonsterZone  , new MonsterZone  , myGraveyardZone,
     new SpellTrapZone, new SpellTrapZone, new SpellTrapZone, new SpellTrapZone, new SpellTrapZone, myDeckZone
   )
 
-  val theirGraveyardZone: GraveyardZone = new GraveyardZone
-  val theirDeckZone: DeckZone = new DeckZone(myDeck)
-  val theirSide: Seq[BoardZone] = List[BoardZone](
+  private val theirGraveyardZone: GraveyardZone = new GraveyardZone
+  private val theirDeckZone: DeckZone = new DeckZone(myDeck)
+  private val theirSide: List[BoardZone] = List[BoardZone](
     theirDeckZone     , new SpellTrapZone, new SpellTrapZone, new SpellTrapZone, new SpellTrapZone, new SpellTrapZone,
     theirGraveyardZone, new MonsterZone  , new MonsterZone  , new MonsterZone  , new MonsterZone  , new MonsterZone
   )
 
-  val myHand: VisibleHand = new VisibleHand(myDeck)
-  val theirHand: HiddenHand = new HiddenHand(theirDeck)
+  private val myHand: VisibleHand = new VisibleHand(myDeck)
+  private val theirHand: HiddenHand = new HiddenHand(theirDeck)
 
   myHand.draw(6)
   myLifePoints - 1000
@@ -51,7 +52,7 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
     * All children and their actions of the visible hand.
     * @return All children
     */
-  def visibleHandBoxChildren: Seq[ImageView] = myHand.map(i => {
+  private def visibleHandBoxChildren: Seq[ImageView] = myHand.map(i => {
     new ImageView(i.sprite){
       fitWidth = Config.cardWidth
       fitHeight = Config.cardHeight
@@ -115,12 +116,12 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
   /**
     * On draw -> needs refreshing
     */
-  val visibleHandBox: FlowPane = new FlowPane(){
+  private val visibleHandBox: FlowPane = new FlowPane(){
     hgap = -10
     children = visibleHandBoxChildren
   }
 
-  val invisibleHandBox: FlowPane = new FlowPane(){
+  private val invisibleHandBox: FlowPane = new FlowPane(){
     hgap = -10
     children = theirHand.map(i => {
       new ImageView(i.sprite){
@@ -217,10 +218,11 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
     }
   }
 
+  @Deprecated
   def sendToMyGraveyardFromMyBoard(card: Card): Unit = {
     card match {
       case _: MonsterCard =>
-        val zones = mySide.filter(_.isInstanceOf[MonsterZone]).map(_.asInstanceOf[MonsterZone])
+        val zones: Seq[MonsterZone] = mySide.filter(_.isInstanceOf[MonsterZone]).map(_.asInstanceOf[MonsterZone])
         if (zones.exists(_.peek == card)) {
           zones.head.deoccupy
           myGraveyardZone.+(card)
@@ -235,11 +237,74 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
     }
   }
 
+  def sendToGraveyard(card: Card, side: BoardSides.BoardSide, fromWhere: BoardLocations.BoardLocation): Unit = {
+    if (fromWhere == BoardLocations.MyField || fromWhere == BoardLocations.TheirField){
+      var s: List[BoardZone] = _
+      side match {
+        case BoardSides.MySide => s = mySide
+        case BoardSides.TheirSide => s = theirSide
+      }
+      if (side == BoardSides.MySide)
+        s = mySide
+      else
+        s = theirSide
+
+      val zones = s.filter(_.peek.orNull == card)
+      if (zones.exists(_.peek.orNull == card)) {
+        zones.head match{
+          case mz: MonsterZone => mz.deoccupy
+          case stz: SpellTrapZone => stz deoccupy
+        }
+        side match {
+          case BoardSides.MySide => myGraveyardZone + card
+          case BoardSides.TheirSide => theirGraveyardZone + card
+        }
+      }
+    } else if (fromWhere == BoardLocations.MyHand || fromWhere == BoardLocations.TheirHand){
+      //TODO complete
+    }
+  }
+
   object BoardSides extends Enumeration {
     type BoardSide = Value
     val
       MySide,
       TheirSide = Value
+  }
+
+  object BoardLocations extends Enumeration {
+    type BoardLocation = Value
+    val
+      MyHand,
+      TheirHand,
+      MyField,
+      TheirField = Value
+  }
+
+  /* Game Loop stuff*/
+  private def drawPhase: Unit = {
+
+  }
+
+  private def startOfTurn: Unit = {
+    //board.mySide.foreach()
+    mySide.filter(_.occupied).foreach(c => c.peek.ifPresent(_.onStartOfTurn(this)))
+  }
+
+  private def endPhase: Unit = {
+    mySide.filter(_.occupied).foreach(c => c.peek.ifPresent(_.onEndOfTurn(this)))
+  }
+
+  /**
+    * Game loop
+    */
+  def doLoop: Unit = {
+    //for each zone containing card, register popup allowing attacking etc.
+    // then de register those who dont
+    drawPhase
+    startOfTurn
+    endPhase
+    //blah
   }
 
   summonMonster(new ExampleCard, BoardSides.MySide)
