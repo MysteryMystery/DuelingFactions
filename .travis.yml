@@ -2,12 +2,11 @@ language: scala
 scala:
    - 2.12.4
    - 2.12.6
-
- before_deploy:
-    # Set up git user name and tag this commit
-    - git config --local user.name "MysteryMystery"
-    - git config --local user.email "jamesattfield1990@gmail.com"
-    - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "MysteryMystery"
+  - git config --local user.email "jamesattfield1990@gmail.com"
+  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 deploy:
   provider: releases
   api_key: "VzBvAiuUlpR9TUW0_-CYig"
