@@ -11,6 +11,6 @@ deploy:
   provider: releases
   #api_key: "VzBvAiuUlpR9TUW0_-CYig"
   file: "DuelingFactions.jar"
-  api_key: $GITHUB_OAUTH_TOKEN
+  #api_key: $GITHUB_OAUTH_TOKEN
   skip_cleanup: true
   overwrite: true

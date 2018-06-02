@@ -265,6 +265,8 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
     }
   }
 
+  private def getMe = this
+
   object BoardSides extends Enumeration {
     type BoardSide = Value
     val
