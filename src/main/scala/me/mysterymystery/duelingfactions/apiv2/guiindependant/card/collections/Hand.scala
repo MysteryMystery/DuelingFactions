@@ -12,7 +12,17 @@ class Hand (protected val linkedDeck: Deck) extends Iterable[Card] with Seq[Card
 
   def -= (card: Card): Unit = elems -= card
 
-  def draw(numberToDraw: Int = 1): Unit = elems ++= linkedDeck.draw(numberToDraw)
+  def draw(numberToDraw: Int = 1): Seq[Card] = {
+    val x = linkedDeck.draw(numberToDraw)
+    elems ++= x
+    x
+  }
+
+  def draw: Card = {
+    val x = linkedDeck.draw
+    elems += x
+    x
+  }
 
   override def length: Int = elems.length
 

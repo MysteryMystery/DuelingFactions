@@ -16,8 +16,8 @@ import scala.collection.mutable
   * GUI independant implementation of the board.
   */
 class Board (val deck: Deck) {
-  private var _monsterZones: mutable.MutableList[MonsterCard] = mutable.MutableList(null, null, null, null, null)
-  private var _spellTrapZones: mutable.MutableList[SpellOrTrapCard] = mutable.MutableList(null, null, null, null, null)
+  private val _monsterZones: mutable.MutableList[MonsterCard] = mutable.MutableList(null, null, null, null, null)
+  private val _spellTrapZones: mutable.MutableList[SpellOrTrapCard] = mutable.MutableList(null, null, null, null, null)
   val hand: Hand = new Hand(deck)
   val graveyard: Graveyard = new Graveyard
   val hero: Hero = new Hero {

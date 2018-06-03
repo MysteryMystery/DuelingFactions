@@ -37,7 +37,7 @@ class Deck (cards: Seq[Card]) extends Iterable[Card] with Seq[Card]{
     */
   def draw(numberOfCards: Int): Seq[Card] = {
     var tr = ArrayBuffer[Card]()
-    for (i <- 0 to numberOfCards){
+    for (i <- 0 until numberOfCards){
       tr += elems.last
       elems = elems.dropRight(1)
     }

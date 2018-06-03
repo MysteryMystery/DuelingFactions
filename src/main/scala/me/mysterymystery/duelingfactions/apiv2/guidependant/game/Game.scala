@@ -1,5 +1,7 @@
 package me.mysterymystery.duelingfactions.apiv2.guidependant.game
 
+import java.util.Date
+
 import javafx.animation
 import javafx.beans.InvalidationListener
 import javafx.beans.value.{ChangeListener, ObservableObjectValue}
@@ -217,20 +219,24 @@ class Game(val gameController: GameController) {
       onMouseClicked = (e: MouseEvent) => {
         new Popup(){
           styleClass = Seq("summonButton")
-          autoFix = true
+          autoFix = false
           autoHide = true
+          deckPanePopup.hide()
 
           children.add(
             new Button("Draw"){
               styleClass = Seq("summonButton")
               onAction = (e: ActionEvent) => {
-                gameController.boards("mySide").hand.draw()
-                handBox.children = visibleHandBoxChildren
+                val t = new Date()
+                val x: Card = gameController.boards("mySide").hand.draw
+                handBox.children add addHandboxChild(x).delegate
+                println("Drawn")
+                val y = new Date()
+                println(y.getTime - t.getTime)
                 hide()
               }
             }.delegate
           )
-
           show(DuelingFactions.stage, e.getScreenX, e.getScreenY)
         }
       }
@@ -273,7 +279,9 @@ class Game(val gameController: GameController) {
     * All children and their actions of the visible hand.
     * @return All children
     */
-  private def visibleHandBoxChildren: Seq[ImageView] = gameController.boards("mySide").hand.map(i => {
+  private def visibleHandBoxChildren: Seq[ImageView] = gameController.boards("mySide").hand.map(addHandboxChild  )
+
+  private def addHandboxChild(i: Card): ImageView = {
     new ImageView(i.sprite){
       fitWidth = Config.cardWidth
       fitHeight = Config.cardHeight
@@ -352,7 +360,7 @@ class Game(val gameController: GameController) {
         }
       }
     }
-  })
+  }
 
   val visual: VBox = new VBox(){
     styleClass ++= Seq("boardField")
