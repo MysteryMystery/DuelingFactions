@@ -21,14 +21,14 @@ class SpellTrapZone extends BoardZone {
 
   onMouseEntered = (e: input.MouseEvent) => {
     if (occupiedWith != null){
-      GameScene.cardViewerPictureBox.image = occupiedWith.sprite
-      GameScene.descBox.text = occupiedWith.cardText
+      //GameScene.cardViewerPictureBox.image = occupiedWith.sprite
+      //GameScene.descBox.text = occupiedWith.cardText
     }
   }
   onMouseExited = (e: input.MouseEvent) => {
-    GameScene.cardViewerPictureBox.image = new Image(new image.Image(getClass.getResourceAsStream("/sprites/CardBack.png")))
+    //GameScene.cardViewerPictureBox.image = new Image(new image.Image(getClass.getResourceAsStream("/sprites/CardBack.png")))
 
-    GameScene.descBox.text = ""
+    //GameScene.descBox.text = ""
   }
 
   onMouseClicked = (e: MouseEvent) => if (occupied) new Popup(){

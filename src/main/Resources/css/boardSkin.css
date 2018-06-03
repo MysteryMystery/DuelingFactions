@@ -19,8 +19,9 @@
 }
 
 .boardField {
-    -fx-background-image: url("/skin/boardBack.jpg");
-    -fx-background-repeat: cover;
+    -fx-background-image: url("/skin/boardBackground.png");
+    -fx-background-size: cover, auto;
+    -fx-background-repeat: no-repeat;
 }
 
 .boardWrapper {
@@ -37,7 +38,8 @@
     -fx-border-width: 1px;
 
     -fx-background-image: url("/skin/board/spellSlot.png");
-    -fx-background-repeat: cover;
+    -fx-background-size: cover, auto;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 120;
     -fx-background-position: center center
 }
@@ -48,7 +50,8 @@
     -fx-border-width: 1px;
 
     -fx-background-image: url("/skin/board/monsterSlot.png");
-    -fx-background-repeat: cover;
+    -fx-background-size: cover, auto;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 120;
     -fx-background-position: center center
 }
@@ -58,7 +61,8 @@
     -fx-border-color: #333;
     -fx-border-width: 1px;
     -fx-background-image: url("/skin/board/deckSlot.png");
-    -fx-background-repeat: cover;
+    -fx-background-size: cover, auto;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 120 90;
     -fx-background-position: center center
 }
@@ -69,7 +73,8 @@
     -fx-border-width: 1px;
 
     -fx-background-image: url("/skin/board/graveSlot.png");
-    -fx-background-repeat: cover;
+    -fx-background-size: cover, auto;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 120 90;
     -fx-background-position: center center
 }

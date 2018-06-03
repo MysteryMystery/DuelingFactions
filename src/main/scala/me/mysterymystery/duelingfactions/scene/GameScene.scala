@@ -9,13 +9,18 @@ import javafx.scene.image
 import me.mysterymystery.duelingfactions.api.board.faction.factions.ExampleFaction
 import me.mysterymystery.duelingfactions.api.board.Board
 import me.mysterymystery.duelingfactions.api.board.locations.MonsterZone
-import me.mysterymystery.duelingfactions.api.card.Card
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.Card
+import me.mysterymystery.duelingfactions.apiv2.guidependant.card._
 import me.mysterymystery.duelingfactions.api.card.deck.StubDeck
 import me.mysterymystery.duelingfactions.api.card.cardcollection.Deck
-import me.mysterymystery.duelingfactions.api.card.cardlist.{ExampleCard, ExampleSpell}
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards.ExampleSpell
 import me.mysterymystery.duelingfactions.api.card.deck.StubDeck
 import scalafx.scene.control.{Button, TextArea}
 import me.mysterymystery.duelingfactions.api.config.Config
+import me.mysterymystery.duelingfactions.apiv2.guidependant.game.Game
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.GameController
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards.ExampleMonster
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.MonsterPositions
 
 object GameScene extends SceneBuilder {
 
@@ -26,13 +31,13 @@ object GameScene extends SceneBuilder {
     minHeight = 50
   }
 
-  val cardViewerPictureBox: ImageView = new ImageView{
+  private val cardViewerPictureBox: ImageView = new ImageView{
     //image = new Image(new javafx.scene.image.Image())
     fitWidth = 180
     fitHeight = 240
   }
 
-  val descBox: TextArea = new TextArea {
+  private val descBox: TextArea = new TextArea {
     wrapText = true
     editable = false
   }
@@ -40,7 +45,7 @@ object GameScene extends SceneBuilder {
   /**
     * Card discriptions on card hover. Like in ygopro.
     */
-  val cardViewer: VBox = new VBox(){
+  private val cardViewer: VBox = new VBox(){
     styleClass ++= Seq("cardViewer", "pane")
     minHeight = 500
     minWidth = 200
@@ -49,8 +54,8 @@ object GameScene extends SceneBuilder {
     children = Seq(cardViewerPictureBox, descBox)
   }
 
-  val b : Board = new Board(new ExampleFaction(), StubDeck, new ExampleFaction, new Deck(Seq()))
-  b.summonMonster(new ExampleCard, b.BoardSides.MySide)
+  val newGame = new Game(new GameController)
+  newGame.gameController.boards("mySide").hand.draw(1)
 
   /**
     *
@@ -74,14 +79,17 @@ object GameScene extends SceneBuilder {
         left = cardViewer
         center = new HBox(){
           children = Seq(/*boardField*/
-            b.visual,
+            newGame.visual,
             new VBox(){
               children = Seq(
                 new Button("Summon A card! (testing)"){
-                  onAction = (e: ActionEvent) => b.summonMonster(new ExampleCard, b.BoardSides.MySide)
+                  onAction = (e: ActionEvent) => newGame.gameController.boards("mySide").summon(new ExampleMonster, MonsterPositions.Attack)
                 },
                 new Button("Summon A Spell! (testing)"){
-                  onAction = (e: ActionEvent) => b.summonSpellTrap(new ExampleSpell, b.BoardSides.MySide)
+                  onAction = (e: ActionEvent) => newGame.gameController.boards("mySide").set(new ExampleSpell)
+                },
+                new Button("Draw a card! (Testing)"){
+                  onAction = (e: ActionEvent) => newGame.gameController.boards("mySide").hand.draw()
                 }
               )
             }
@@ -93,7 +101,12 @@ object GameScene extends SceneBuilder {
     }
 
   def setDescriptionBox(card: Card): Unit = {
-    cardViewerPictureBox.image = card.sprite
-    descBox.text = card.cardText
+    if (card != null){
+      cardViewerPictureBox.image = card.sprite
+      descBox.text = card.cardText
+    }else {
+      cardViewerPictureBox.image = Card.empty.sprite
+      descBox.text = Card.empty.cardText
+    }
   }
 }

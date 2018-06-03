@@ -21,13 +21,11 @@ class MonsterZone extends BoardZone {
 
   onMouseEntered = (e: input.MouseEvent) => {
     if (occupiedWith != null){
-      GameScene.cardViewerPictureBox.image = occupiedWith.sprite
-      GameScene.descBox.text = occupiedWith.cardText
+      //GameScene.setDescriptionBox(occupiedWith)
     }
   }
   onMouseExited = (e: input.MouseEvent) => {
-    GameScene.cardViewerPictureBox.image = new Image(new image.Image(getClass.getResourceAsStream("/sprites/CardBack.png")))
-    GameScene.descBox.text = ""
+
   }
 
   onMouseClicked = (e: MouseEvent) => if (occupied) new Popup(){

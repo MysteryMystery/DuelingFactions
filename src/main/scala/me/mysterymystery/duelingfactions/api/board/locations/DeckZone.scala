@@ -24,8 +24,6 @@ class DeckZone(private var occupiedWith: Deck = new Deck(Seq()) ) extends BoardZ
   }
 
   onMouseExited = (e: input.MouseEvent) => {
-    GameScene.cardViewerPictureBox.image = new Image(new image.Image(getClass.getResourceAsStream("/sprites/CardBack.png")))
-    GameScene.descBox.text = ""
   }
 
   def occupy(deck: Deck): Unit = occupiedWith = deck

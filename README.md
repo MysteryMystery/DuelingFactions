@@ -15,6 +15,7 @@ A game based on hearthstone and YU-GI-OH!.
 * 5 spell / trap zones
 
 * A player may attack directly unless a monster is in defense position on their opponents side of the field.
+* A monster can either be summoned in attack or defense
 
 ### TODO
 * Make Game Server 
@@ -26,4 +27,7 @@ A game based on hearthstone and YU-GI-OH!.
 Hand is linked to Deck 
 A faction contains their side of the board.
 
+### Board Layout
+
+ 
 

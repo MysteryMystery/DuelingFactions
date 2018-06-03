@@ -60,14 +60,14 @@ class Board(private val myFaction: Faction, private var myDeck: Deck, private va
         fitWidth = Config.cardWidth + 10
         fitHeight = Config.cardHeight + 10
 
-        GameScene.cardViewerPictureBox.image = i.sprite
-        GameScene.descBox.text = i.cardText
+        //GameScene.cardViewerPictureBox.image = i.sprite
+        //GameScene.descBox.text = i.cardText
       }
       onMouseExited  = (e: MouseEvent) => {
         fitWidth = Config.cardWidth
         fitHeight = Config.cardHeight
 
-        GameScene.descBox.text = ""
+        //GameScene.descBox.text = ""
       }
       onMouseClicked = (e: MouseEvent) => {
         new Popup(){

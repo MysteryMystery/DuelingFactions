@@ -46,7 +46,7 @@ class GraveyardZone extends BoardZone {
                   onMouseEntered = (e: MouseEvent) => {
                     fitHeight = Config.cardHeight * 1.25 + 10
                     fitWidth = Config.cardWidth * 1.25 + 10
-                    GameScene.setDescriptionBox(i)
+                    //GameScene.setDescriptionBox(i)
                   }
                   onMouseExited = (e: MouseEvent) => {
                     fitHeight = Config.cardHeight * 1.25 - 10
