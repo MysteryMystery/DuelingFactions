@@ -1,5 +1,6 @@
 package me.mysterymystery.duelingfactions.apiv2.guiindependant.board
 
+import me.mysterymystery.duelingfactions.apiv2.guidependant.game.Game
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.collections.{Deck, Graveyard, Hand}
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.FieldPositions
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.{Card, MonsterCard, SpellCard, SpellOrTrapCard}
@@ -9,15 +10,29 @@ import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.FieldPo
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.hero.Hero
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.pimping.PimpedOption._
 import me.mysterymystery.duelingfactions.apiv2.guidependant.hero._
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.logging.Logger
+import scalafx.collections.ObservableBuffer
 
 import scala.collection.mutable
 
 /**
   * GUI independant implementation of the board.
   */
-class Board (val deck: Deck) {
-  private val _monsterZones: mutable.MutableList[MonsterCard] = mutable.MutableList(null, null, null, null, null)
-  private val _spellTrapZones: mutable.MutableList[SpellOrTrapCard] = mutable.MutableList(null, null, null, null, null)
+class Board (val side: BoardSides.BoardSide, val deck: Deck, val linkedGameController: GameController) {
+  private val _monsterZones: ObservableBuffer[MonsterCard] = ObservableBuffer(null, null, null, null, null)
+  _monsterZones.onChange(
+    (source, changes) => {
+      linkedGameController.sendFieldChange[MonsterCard](changes, classOf[MonsterCard], side)
+      changes.foreach(c => Logger.info(this, s"Monster zone change: $c"))
+    }
+  )
+  private val _spellTrapZones: ObservableBuffer[SpellOrTrapCard] = ObservableBuffer(null, null, null, null, null)
+  _spellTrapZones.onChange(
+    (source, changes) => {
+      linkedGameController.sendFieldChange[SpellOrTrapCard](changes, classOf[SpellOrTrapCard], side)
+      changes.foreach(c => Logger.info(this, s"Monster zone change: $c"))
+    }
+  )
   val hand: Hand = new Hand(deck)
   val graveyard: Graveyard = new Graveyard
   val hero: Hero = new Hero {

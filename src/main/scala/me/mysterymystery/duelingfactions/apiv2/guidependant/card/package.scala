@@ -29,4 +29,8 @@ package object card {
       rotate = if (card.isInstanceOf[MonsterCard] && card.asInstanceOf[MonsterCard].position == MonsterPositions.Defense) 90 else 0
     }
   }
+
+  implicit class ImageViewOps (imgv: ImageView) {
+
+  }
 }

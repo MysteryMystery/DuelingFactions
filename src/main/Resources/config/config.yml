@@ -1,3 +1,4 @@
 cardFieldHeightWidth: 120
 cardHeight: 90
 cardWidth: 60
+debug: true

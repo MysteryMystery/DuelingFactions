@@ -16,4 +16,6 @@ object Config {
     def fieldZoneHeightWidth: Int = conf("cardFieldHeightWidth").asInstanceOf[Int]
     def cardHeight: Int = conf("cardHeight").asInstanceOf[Int]
     def cardWidth: Int = conf("cardWidth").asInstanceOf[Int]
+
+    def debug: Boolean = conf("debug").asInstanceOf[Boolean]
 }

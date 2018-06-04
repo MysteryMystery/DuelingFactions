@@ -2,13 +2,14 @@ package me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards
 
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.{Board, GameController}
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.{SpellCard, SpellOrTrapCard}
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides.MySide
 
 class ExampleSpell extends SpellCard with SpellOrTrapCard{
   /**
     *
     * @return The effect that the card performs.
     */
-  override def action: GameController => Unit = gc => gc.boards("mySide").hand.draw(1)
+  override def action: GameController => Unit = gc => gc.boards(MySide).hand.draw(1)
 
   /**
     * Card Description can either be geenral lore, or if the card has an effect, the effect.

@@ -5,6 +5,7 @@ import java.util.Date
 import javafx.animation
 import javafx.beans.InvalidationListener
 import javafx.beans.value.{ChangeListener, ObservableObjectValue}
+import javafx.collections.ObservableList
 import javafx.event.{ActionEvent, EventHandler}
 import javafx.scene.input.MouseEvent
 import me.mysterymystery.duelingfactions.DuelingFactions
@@ -22,25 +23,101 @@ import javafx.scene.input
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.collections.{Deck, Graveyard, Hand}
 import scalafx.geometry.{Insets, Orientation, Pos}
 import me.mysterymystery.duelingfactions.apiv2.guidependant.hero._
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides.{BoardSide, MySide, TheirSide}
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.logging.Logger
 import scalafx.animation.{KeyFrame, Timeline}
 import scalafx.beans.value.ObservableValue
 import scalafx.scene.text.Text
 import scalafx.util.Duration
+import scalafx.collections.ObservableBuffer
+import scalafx.collections.ObservableBuffer._
 
 import scala.collection.mutable
 
 class Game(val gameController: GameController) {
-  val myField: mutable.MutableList[StackPane] = mutable.MutableList (
-    monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), graveyardPane(gameController.boards("mySide").graveyard),
-    spellPane(null), spellPane(null), spellPane(null), spellPane(null), spellPane(null), deckPane(gameController.boards("mySide").deck)
+  private var myField: ObservableBuffer[StackPane] = ObservableBuffer (
+    monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), graveyardPane(gameController.boards(MySide).graveyard),
+    spellPane(null), spellPane(null), spellPane(null), spellPane(null), spellPane(null), deckPane(gameController.boards(MySide).deck)
   )
-
-  val theirField: mutable.MutableList[StackPane] = mutable.MutableList(
-    spellPane(null), spellPane(null), spellPane(null), spellPane(null), spellPane(null), deckPane(gameController.boards("theirSide").deck),
-    monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), graveyardPane(gameController.boards("theirSide").graveyard)
+  myField.onChange((source, changes) => {
+    myFieldPane.children = myField
+    updateVisual
+  })
+  private var theirField: ObservableBuffer[StackPane] = ObservableBuffer(
+    spellPane(null), spellPane(null), spellPane(null), spellPane(null), spellPane(null), deckPane(gameController.boards(TheirSide).deck),
+    monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), monsterPane(null), graveyardPane(gameController.boards(TheirSide).graveyard)
   )
+  theirField.onChange((source, changes) => theirFieldPane.children = theirField)
 
-  def field: List[Pane] = (theirField.toBuffer ++= myField).toList
+  def field: List[Pane] = (theirField ++= myField).toList
+
+  /**
+    *
+    * @param changes The changes to be made to the field.
+    */
+  def sendFieldChange[_ <: Card](changes: Seq[ObservableBuffer.Change[_]], typ: Class[_ <: Card], side: BoardSide): Unit = {
+    Logger.info(this, s"sendFileChange -> passed in: ${typ.getSimpleName}  does it match one of these? [${classOf[MonsterCard].getSimpleName}, ${classOf[SpellOrTrapCard].getSimpleName}]")
+    changes.foreach {
+      case Add(position, added) => {
+        Logger.info(this, "Matched Add")
+        if (side == MySide){
+          try {
+            myField.update(position, monsterPane(added.head.asInstanceOf[MonsterCard]))
+          }catch {case _: Throwable => }
+          try {
+            myField.update(position + 6, spellPane(added.head.asInstanceOf[SpellOrTrapCard]))
+          } catch {case _: Throwable => }
+        } else if (side == TheirSide){
+          try {
+            theirField.update(position+6, monsterPane(added.head.asInstanceOf[MonsterCard]))
+          }catch {case _: Throwable => }
+          try {
+            theirField.update(position, spellPane(added.head.asInstanceOf[SpellOrTrapCard]))
+          } catch {case _: Throwable => }
+        }
+      }
+      case Remove(position, removed) => {
+        Logger.info(this, "Matched Remove.")
+        //TODO figure out a thing that works
+      }
+
+      /*case Add(position, added)  => {
+        Logger.info(this, "Matched Add")
+        //FIXME these if statments
+        if (typ.getClass.getSimpleName == classOf[MonsterCard].getSimpleName && side == TheirSide){
+          theirField.update(position + 6, monsterPane(added.head.asInstanceOf[MonsterCard]))
+          Logger.info(this, "Monster Card Added.")
+        }
+        else if (typ.getClass.getName == classOf[MonsterCard].getName && side == MySide){
+          myField.update(position, monsterPane(added.head.asInstanceOf[MonsterCard]))
+          Logger.info(this, "Monster Card Added.")
+        }
+
+        if (typ.getClass.getName == classOf[SpellOrTrapCard].getName && side == MySide){
+          myField.update(position + 6, spellPane(added.head.asInstanceOf[SpellOrTrapCard]))
+          Logger.info(this, "Spell or Trap Card Added.")
+        }else if (typ.getClass.getName == classOf[SpellOrTrapCard].getName && side == TheirSide){
+          theirField.update(position, spellPane(added.head.asInstanceOf[SpellOrTrapCard]))
+          Logger.info(this, "Spell or Trap Card Added.")
+        }
+      }
+      case Remove(position, removed) => {
+        Logger.info(this, "Matched Remove.")
+        if (typ.getClass.getName == classOf[MonsterCard].getName && side == TheirSide){
+          theirField.remove(position)
+        }
+        else if (side == MySide)
+          myField.remove(position)
+
+        if (typ.getClass.getName == classOf[SpellOrTrapCard].getName && side == TheirSide){
+          myField.remove(position)
+        }else {
+          theirField.remove(position)
+        }
+      }*/
+    }
+    Logger.info(this, s"---- Observable Board ---- \n${myField.map(_.children).mkString(" ")}\n -----    -------    -----\n")
+  }
 
   /**
     *
@@ -48,17 +125,17 @@ class Game(val gameController: GameController) {
     */
   def cardOcuppiedBy(boardIndex: Int): Card = {
     if (boardIndex < 12){
-      (gameController.boards("theirSide").spellTrapZones.toBuffer ++= gameController.boards("theirSide").monsterZones)(boardIndex)
+      (gameController.boards(TheirSide).spellTrapZones.toBuffer ++= gameController.boards(TheirSide).monsterZones)(boardIndex)
     }else {
-      (gameController.boards("mySide").monsterZones.toBuffer ++= gameController.boards("mySide").spellTrapZones)(boardIndex % 12)
+      (gameController.boards(MySide).monsterZones.toBuffer ++= gameController.boards(MySide).spellTrapZones)(boardIndex % 12)
     }
   }
 
   def occupy(boardIndex: Int, card: Card): Unit = {
     if (boardIndex < 12){
-      (gameController.boards("theirSide").spellTrapZones.toBuffer ++= gameController.boards("theirSide").monsterZones)(boardIndex) = card
+      (gameController.boards(TheirSide).spellTrapZones.toBuffer ++= gameController.boards(TheirSide).monsterZones)(boardIndex) = card
     }else {
-      (gameController.boards("mySide").monsterZones.toBuffer ++= gameController.boards("mySide").spellTrapZones)(boardIndex % 12) =  card
+      (gameController.boards(MySide).monsterZones.toBuffer ++= gameController.boards(MySide).spellTrapZones)(boardIndex % 12) =  card
     }
   }
 
@@ -67,43 +144,64 @@ class Game(val gameController: GameController) {
     * Syncs front end with backend.
    */
   def syncField: Unit = {
-    for (i <- gameController.boards("mySide").monsterZones.indices){
-      if (gameController.boards("mySide").monsterZones(i) != null){
-        myField(i).children = Seq(
-          gameController.boards("mySide").monsterZones(i).imageView
-        )
-        myField(i).onMouseClicked = (e: input.MouseEvent) => {
-          new Popup(){
+    for (i <- gameController.boards(MySide).monsterZones.indices){
+      if (gameController.boards(MySide).monsterZones(i) != null){
+        val child = gameController.boards(MySide).monsterZones(i).imageView
+        child.onMouseClicked = (e: input.MouseEvent) => {
+          val poppy = new Popup(){
             autoFix = true
             autoHide = true
-            content.addAll(
-              if (gameController.boards("mySide").monsterZones(i).position == MonsterPositions.Defense){
+          }
+          val contents = new VBox(){
+            children.addAll(
+              if (gameController.boards(MySide).monsterZones(i).position == MonsterPositions.Defense){
                 new Button("Attack Mode"){
-                  styleClass ++= Seq("monsterSlot")
-                  onMouseClicked = (e: input.MouseEvent) => gameController.boards("mySide").monsterZones(i).position = MonsterPositions.Attack
+                  styleClass ++= Seq("summonButton")
+                  onAction = (e: ActionEvent) => {
+                    gameController.boards(MySide).monsterZones(i).position = MonsterPositions.Attack
+                    myField(i).children = gameController.boards(MySide).monsterZones(i).imageView
+                    syncField
+                    poppy hide
+                  }
                 }.delegate
               } else {
                 new Button("Defense Mode"){
-                  styleClass ++= Seq("monsterSlot")
-                  onMouseClicked = (e: input.MouseEvent) => gameController.boards("mySide").monsterZones(i).position = MonsterPositions.Defense
+                  styleClass ++= Seq("summonButton")
+                  onAction = (e: ActionEvent) => {
+                    gameController.boards(MySide).monsterZones(i).position = MonsterPositions.Defense
+                    myField(i).children = gameController.boards(MySide).monsterZones(i).imageView
+                    syncField
+                    poppy hide
+                  }
                 }.delegate
               }
             )
-            if (gameController.boards("mySide").monsterZones(i).position == MonsterPositions.Attack)
-              content.add(
-                new Button("Attack"){
-                  styleClass ++= Seq("monsterSlot")
-                }.delegate
-              )
           }
+          if (gameController.boards(MySide).monsterZones(i).position == MonsterPositions.Attack)
+            contents.children.add(
+              new Button("Attack"){
+                styleClass ++= Seq("summonButton")
+                onAction = (e: ActionEvent) => {
+                  
+                  poppy hide
+                }
+              }.delegate
+            )
+          poppy.content add contents
+          poppy show(DuelingFactions.stage, e.getScreenX, e.getScreenY)
         }
+
+        myField(i).children = Seq(
+          child
+        )
+        //myField(i).onMouseClicked = (e: input.MouseEvent) => {
       }
     }
 
-    for (i <- gameController.boards("mySide").spellTrapZones.indices){
-      if (gameController.boards("mySide").spellTrapZones(i) != null) {
+    for (i <- gameController.boards(MySide).spellTrapZones.indices){
+      if (gameController.boards(MySide).spellTrapZones(i) != null) {
         myField(i).children = Seq(
-          gameController.boards("mySide").spellTrapZones(i).imageView
+          gameController.boards(MySide).spellTrapZones(i).imageView
         )
         myField(i).onMouseClicked = (e: input.MouseEvent) => {
           new Popup() {
@@ -126,6 +224,9 @@ class Game(val gameController: GameController) {
       prefHeight = Config.cardHeight
       prefWidth = Config.cardHeight
       styleClass ++= Seq("monsterSlot")
+
+      if (card != null)
+        children = ObservableBuffer(card.imageView)
 
       onMouseEntered = (e: MouseEvent) => {
         GameScene.setDescriptionBox(card.asInstanceOf[Card])
@@ -228,7 +329,7 @@ class Game(val gameController: GameController) {
               styleClass = Seq("summonButton")
               onAction = (e: ActionEvent) => {
                 val t = new Date()
-                val x: Card = gameController.boards("mySide").hand.draw
+                val x: Card = gameController.boards(MySide).hand.draw
                 handBox.children add addHandboxChild(x).delegate
                 println("Drawn")
                 val y = new Date()
@@ -279,7 +380,7 @@ class Game(val gameController: GameController) {
     * All children and their actions of the visible hand.
     * @return All children
     */
-  private def visibleHandBoxChildren: Seq[ImageView] = gameController.boards("mySide").hand.map(addHandboxChild  )
+  private def visibleHandBoxChildren: Seq[ImageView] = gameController.boards(MySide).hand.map(addHandboxChild  )
 
   private def addHandboxChild(i: Card): ImageView = {
     new ImageView(i.sprite){
@@ -310,9 +411,9 @@ class Game(val gameController: GameController) {
                 case spellCard: SpellCard => new Button("Cast") {
                   styleClass = Seq("summonButton")
                   onAction = (e: ActionEvent) => {
-                    gameController.boards("mySide").hand -= i
+                    gameController.boards(MySide).hand -= i
                     syncField
-                    gameController.boards("mySide").cast(spellCard)
+                    gameController.boards(MySide).cast(spellCard)
                     syncField
                     handBox.children = visibleHandBoxChildren
                     hide()
@@ -321,8 +422,8 @@ class Game(val gameController: GameController) {
                 case trapCard: TrapCard => new Button("Set"){
                   styleClass = Seq("summonButton")
                   onAction = (e: ActionEvent) => {
-                    gameController.boards("mySide").hand -= i
-                    gameController.boards("mySide").set(trapCard)
+                    gameController.boards(MySide).hand -= i
+                    gameController.boards(MySide).set(trapCard)
                     handBox.children = visibleHandBoxChildren
                     syncField
                     hide()
@@ -333,8 +434,8 @@ class Game(val gameController: GameController) {
                     new Button("Summon") {
                       styleClass = Seq("summonButton")
                       onAction = (e: ActionEvent) => {
-                        gameController.boards("mySide").hand -= i
-                        gameController.boards("mySide").summon(monster, MonsterPositions.Attack)
+                        gameController.boards(MySide).hand -= i
+                        gameController.boards(MySide).summon(monster, MonsterPositions.Attack)
                         handBox.children = visibleHandBoxChildren
                         syncField
                         hide()
@@ -343,8 +444,8 @@ class Game(val gameController: GameController) {
                     new Button("Set"){
                       styleClass = Seq("summonButton")
                       onAction = (e: ActionEvent) => {
-                        gameController.boards("mySide").hand -= i
-                        gameController.boards("mySide").summon(monster, MonsterPositions.Defense)
+                        gameController.boards(MySide).hand -= i
+                        gameController.boards(MySide).summon(monster, MonsterPositions.Defense)
                         handBox.children = visibleHandBoxChildren
                         syncField
                         hide()
@@ -362,23 +463,28 @@ class Game(val gameController: GameController) {
     }
   }
 
-  val visual: VBox = new VBox(){
-    styleClass ++= Seq("boardField")
-    margin = Insets(20)
-    prefWidth = (Config.cardHeight * 5) + Config.cardWidth + (5 * 5)
-    vgrow = Priority.Never
-    hgrow = Priority.Never
-    children = Seq(
+  val theirFieldPane = new FlowPane(){
+    orientation = Orientation.Horizontal
+    hgap = 5
+    vgap = 5
+    //maxWidth = (Config.cardHeight * 5) + Config.cardWidth + (5 * 5)
+    children = theirField
+  }
+
+  val myFieldPane = new FlowPane(){
+    orientation = Orientation.Horizontal
+    hgap = 5
+    vgap = 5
+    //maxWidth = (Config.cardHeight * 5) + Config.cardWidth + (5 * 5)
+    children = myField
+  }
+
+  def updateVisual: Unit = {
+    visual.children = Seq(
       new HBox(){
-        children = Seq(new ImageView(gameController.boards("theirSide").hero.sprite) {fitWidth = 90; fitHeight = 90})
+        children = Seq(new ImageView(gameController.boards(TheirSide).hero.sprite) {fitWidth = 90; fitHeight = 90})
       },
-      new FlowPane(){
-        orientation = Orientation.Horizontal
-        hgap = 5
-        vgap = 5
-        //maxWidth = (Config.cardHeight * 5) + Config.cardWidth + (5 * 5)
-        children = theirField
-      },
+      theirFieldPane,
       new HBox(){
         prefHeight = 20
         alignment = Pos.Center
@@ -386,19 +492,22 @@ class Game(val gameController: GameController) {
 
         )
       },
-      new FlowPane(){
-        orientation = Orientation.Horizontal
-        hgap = 5
-        vgap = 5
-        //maxWidth = (Config.cardHeight * 5) + Config.cardWidth + (5 * 5)
-        children = myField
-      },
+      myFieldPane,
       //visibleHandBox
       new HBox(){
-        children = Seq(handBox, new ImageView(gameController.boards("mySide").hero.sprite) {fitWidth = 90; fitHeight = 90})
+        children = Seq(handBox, new ImageView(gameController.boards(MySide).hero.sprite) {fitWidth = 90; fitHeight = 90})
       }
     )
   }
+
+  val visual: VBox = new VBox(){
+    styleClass ++= Seq("boardField")
+    margin = Insets(20)
+    prefWidth = (Config.cardHeight * 5) + Config.cardWidth + (5 * 5)
+    vgrow = Priority.Never
+    hgrow = Priority.Never
+  }
+  updateVisual
 
   /*val timer: Timeline = new Timeline{
     cycleCount = Timeline.Indefinite

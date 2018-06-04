@@ -22,6 +22,10 @@ object MainMenuScene extends SceneBuilder {
             new Button("Switch to game scene"){
               styleClass ++= Seq("mainMenuButton")
               onAction = (e: event.ActionEvent) => DuelingFactions.changeScene(GameScene.get)
+            },
+            new Button("Switch to Deck Builder"){
+              styleClass ++= Seq("mainMenuButton")
+              onAction = (e: event.ActionEvent) => DuelingFactions.changeScene(DeckBuilderScene.get)
             }
           )
         }

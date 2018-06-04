@@ -6,6 +6,8 @@ import enums.MonsterTypes.MonsterType
 trait MonsterCard extends Card {
   private var _position = Attack
 
+  override def toString: String = super.toString + s"[$level / $attack / $defense]"
+
   /**
     *
     * @return Level of the monster

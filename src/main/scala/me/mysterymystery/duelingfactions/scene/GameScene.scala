@@ -21,6 +21,10 @@ import me.mysterymystery.duelingfactions.apiv2.guidependant.game.Game
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.GameController
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards.ExampleMonster
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.MonsterPositions
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides._
+
+import scala.collection.parallel.Task
+import scala.concurrent.Future
 
 object GameScene extends SceneBuilder {
 
@@ -31,31 +35,8 @@ object GameScene extends SceneBuilder {
     minHeight = 50
   }
 
-  private val cardViewerPictureBox: ImageView = new ImageView{
-    //image = new Image(new javafx.scene.image.Image())
-    fitWidth = 180
-    fitHeight = 240
-  }
-
-  private val descBox: TextArea = new TextArea {
-    wrapText = true
-    editable = false
-  }
-
-  /**
-    * Card discriptions on card hover. Like in ygopro.
-    */
-  private val cardViewer: VBox = new VBox(){
-    styleClass ++= Seq("cardViewer", "pane")
-    minHeight = 500
-    minWidth = 200
-    maxWidth = 250
-    alignment = Pos.Center
-    children = Seq(cardViewerPictureBox, descBox)
-  }
-
   val newGame = new Game(new GameController)
-  newGame.gameController.boards("mySide").hand.draw(1)
+  //newGame.gameController.boards("mySide").hand.draw(1)
 
   /**
     *
@@ -71,6 +52,7 @@ object GameScene extends SceneBuilder {
 
       root = new BorderPane() {
         styleClass ++= Seq("background", "pane")
+        prefHeight = 500
         top = new HBox(){
           children = Seq(
             lifePointsArea
@@ -83,13 +65,13 @@ object GameScene extends SceneBuilder {
             new VBox(){
               children = Seq(
                 new Button("Summon A card! (testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards("mySide").summon(new ExampleMonster, MonsterPositions.Attack)
+                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).summon(new ExampleMonster, MonsterPositions.Attack)
                 },
                 new Button("Summon A Spell! (testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards("mySide").set(new ExampleSpell)
+                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).set(new ExampleSpell)
                 },
                 new Button("Draw a card! (Testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards("mySide").hand.draw()
+                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).hand.draw()
                 }
               )
             }

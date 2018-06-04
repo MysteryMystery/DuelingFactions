@@ -51,6 +51,8 @@ object Card {
 
 trait Card {
 
+  override def toString: String = s"$name "
+
   /**
     *
     * @return The effect that the card performs.
