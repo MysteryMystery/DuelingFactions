@@ -182,7 +182,7 @@ class Game(val gameController: GameController) {
               new Button("Attack"){
                 styleClass ++= Seq("summonButton")
                 onAction = (e: ActionEvent) => {
-                  
+
                   poppy hide
                 }
               }.delegate
