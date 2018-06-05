@@ -20,15 +20,15 @@ package object cards {
     *
     * @return All Cards in the game.
     */
-  def getAllCards: Seq[Card] = /*getAllMonsters ++*/ getAllSpells //++ getAllTraps
+  def getAllCards: Seq[Card] = getAllMonsters ++ getAllSpells ++ getAllTraps
 
   def getAllSpellOrTraps: Seq[SpellOrTrapCard] = getAllSpells ++ getAllTraps
 
   def getAllSpells: Seq[SpellCard] = reflections.getSubTypesOf(classOf[SpellCard]).asScala.map(_.getConstructors()(0).newInstance(BoardSides.NoSide).asInstanceOf[SpellCard]).toSeq
 
-  def getAllTraps: Seq[TrapCard] = reflections.getSubTypesOf(classOf[TrapCard]).asScala.map(_.newInstance()).toSeq
+  def getAllTraps: Seq[TrapCard] = reflections.getSubTypesOf(classOf[TrapCard]).asScala.map(_.getConstructors()(0).newInstance(BoardSides.NoSide).asInstanceOf[TrapCard]).toSeq
 
-  def getAllMonsters: Seq[MonsterCard] = reflections.getSubTypesOf(classOf[MonsterCard]).asScala.map(_.newInstance()).toSeq
+  def getAllMonsters: Seq[MonsterCard] = reflections.getSubTypesOf(classOf[MonsterCard]).asScala.map(_.getConstructors()(0).newInstance(BoardSides.NoSide).asInstanceOf[MonsterCard]).toSeq
 
   def emptyCard: Card = new Card {
     /**
