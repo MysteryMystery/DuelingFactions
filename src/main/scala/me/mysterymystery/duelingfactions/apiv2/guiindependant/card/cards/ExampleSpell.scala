@@ -2,9 +2,9 @@ package me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards
 
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.{Board, GameController}
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.{SpellCard, SpellOrTrapCard}
-import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides.MySide
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides.{BoardSide, MySide}
 
-class ExampleSpell extends SpellCard with SpellOrTrapCard{
+class ExampleSpell(override val owner: BoardSide) extends SpellCard with SpellOrTrapCard{
   /**
     *
     * @return The effect that the card performs.

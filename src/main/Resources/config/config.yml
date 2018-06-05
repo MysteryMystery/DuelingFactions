@@ -2,3 +2,5 @@ cardFieldHeightWidth: 120
 cardHeight: 90
 cardWidth: 60
 debug: true
+server:
+  ip: 127.0.0.1:8080

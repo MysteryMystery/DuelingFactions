@@ -1,25 +1,39 @@
 package me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards
 
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides.BoardSide
-import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.{Board, GameController}
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.GameController
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.MonsterCard
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.MonsterTypes
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.MonsterTypes.MonsterType
 
-class ExampleMonster (override val owner: BoardSide) extends MonsterCard{
-
-  override def level: Int = 6
-
-  override def attack: Int = 1200
-
-  override def defense: Int = 3000
-
-  override def monsterType: MonsterType = MonsterTypes.NORMAL
+class BloodMancer(override val owner: BoardSide) extends MonsterCard {
+  /**
+    *
+    * @return Level of the monster
+    */
+  override def level: Int = 10
 
   /**
-    * The effect that the card performs.
     *
-    * @return
+    * @return Attack points of the monster
+    */
+  override def attack: Int = 1300
+
+  /**
+    *
+    * @return Defense points of the monster
+    */
+  override def defense: Int = 1500
+
+  /**
+    *
+    * @return Monster Type
+    */
+  override def monsterType: MonsterType = MonsterTypes.EFFECT
+
+  /**
+    *
+    * @return The effect that the card performs.
     */
   override def action: GameController => Unit = _ => ()
 
@@ -28,19 +42,19 @@ class ExampleMonster (override val owner: BoardSide) extends MonsterCard{
     *
     * @return Card description.
     */
-override def cardText: String = "An example card"
+  override def cardText: String = "If \"Blue Mancer\" is on your side of the field, you can summong this card."
 
   /**
     *
     * @return Name of the card.
     */
-override def name: String = "The Red Light"
+override def name: String = "Blood Mancer"
 
   /**
     *
     * @return The file that holds the sprite for the card.
     */
-override def spriteName: String = "TheRedLight.png"
+override def spriteName: String = "BloodMancer.png"
 
   /**
     *

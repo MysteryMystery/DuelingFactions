@@ -18,4 +18,6 @@ object Config {
     def cardWidth: Int = conf("cardWidth").asInstanceOf[Int]
 
     def debug: Boolean = conf("debug").asInstanceOf[Boolean]
+
+    def webServerAddress: String = conf("server").asInstanceOf[java.util.Map[String, String]].asScala("ip")
 }

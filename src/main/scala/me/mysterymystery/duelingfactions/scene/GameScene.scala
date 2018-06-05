@@ -22,6 +22,7 @@ import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.GameControll
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards.ExampleMonster
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.MonsterPositions
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides._
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.cards
 
 import scala.collection.parallel.Task
 import scala.concurrent.Future
@@ -65,10 +66,10 @@ object GameScene extends SceneBuilder {
             new VBox(){
               children = Seq(
                 new Button("Summon A card! (testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).summon(new ExampleMonster, MonsterPositions.Attack)
+                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).summon(new ExampleMonster(MySide), MonsterPositions.Attack)
                 },
                 new Button("Summon A Spell! (testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).set(new ExampleSpell)
+                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).set(new ExampleSpell(MySide))
                 },
                 new Button("Draw a card! (Testing)"){
                   onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).hand.draw()
@@ -87,8 +88,8 @@ object GameScene extends SceneBuilder {
       cardViewerPictureBox.image = card.sprite
       descBox.text = card.cardText
     }else {
-      cardViewerPictureBox.image = Card.empty.sprite
-      descBox.text = Card.empty.cardText
+      cardViewerPictureBox.image = cards.emptyCard.sprite
+      descBox.text = cards.emptyCard.cardText
     }
   }
 }

@@ -96,8 +96,8 @@ class Board (val side: BoardSides.BoardSide, val deck: Deck, val linkedGameContr
   def destroy(card: MonsterCard): Unit = {
     for (m <- _monsterZones.indices) {
       if (_monsterZones(m) == card) {
-        _monsterZones(m) = null
         graveyard += _monsterZones(m)
+        _monsterZones(m) = null
         return
       }
       throw CardNotFoundException()
@@ -108,8 +108,8 @@ class Board (val side: BoardSides.BoardSide, val deck: Deck, val linkedGameContr
   def destroy(card: SpellOrTrapCard): Unit = {
     for (m <- _spellTrapZones.indices){
       if (_spellTrapZones(m) == card){
-        _spellTrapZones(m) = null
         graveyard += _spellTrapZones(m)
+        _spellTrapZones(m) = null
         return
       }
     }
@@ -122,5 +122,9 @@ class Board (val side: BoardSides.BoardSide, val deck: Deck, val linkedGameContr
       hand -= card
       graveyard += card
     }
+  }
+  //TODO complete
+  def contains(card: Card): Boolean = {
+   true
   }
 }

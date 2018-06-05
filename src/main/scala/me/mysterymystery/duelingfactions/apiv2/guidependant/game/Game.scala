@@ -232,7 +232,7 @@ class Game(val gameController: GameController) {
         GameScene.setDescriptionBox(card.asInstanceOf[Card])
       }
       onMouseExited = (e: MouseEvent) => {
-        GameScene.setDescriptionBox(Card.empty)
+        GameScene.setDescriptionBox(cards.emptyCard)
       }
 
       onMouseClicked = (e: MouseEvent) => if (card != null) new Popup(){
@@ -269,7 +269,7 @@ class Game(val gameController: GameController) {
         }
       }
       onMouseExited = (e: MouseEvent) => {
-        GameScene.setDescriptionBox(Card.empty)
+        GameScene.setDescriptionBox(cards.emptyCard)
       }
 
       onMouseClicked = (e: MouseEvent) => if (card != null) new Popup(){
