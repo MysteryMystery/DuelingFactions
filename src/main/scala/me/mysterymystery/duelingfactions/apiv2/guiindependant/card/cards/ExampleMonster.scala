@@ -6,6 +6,7 @@ import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.MonsterCard
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.MonsterTypes
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.MonsterTypes.MonsterType
 
+@SerialVersionUID(123L)
 class ExampleMonster (override val owner: BoardSide) extends MonsterCard{
 
   override def level: Int = 6

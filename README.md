@@ -27,7 +27,9 @@ A game based on hearthstone and YU-GI-OH!.
 Hand is linked to Deck 
 A faction contains their side of the board.
 
-### Board Layout
+### Server Logic
+* Each client needs to know their client id on game start. which is stored locally.
+* The client id is then used for their game data retrieval.
 
  
 

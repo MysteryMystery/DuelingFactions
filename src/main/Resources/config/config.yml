@@ -3,4 +3,4 @@ cardHeight: 90
 cardWidth: 60
 debug: true
 server:
-  ip: 127.0.0.1:8080
+  ip: http://127.0.0.1:3000/api/v1

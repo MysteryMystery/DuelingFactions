@@ -1,5 +1,6 @@
 package me.mysterymystery.duelingfactions.apiv2.guiindependant.card
 
+@SerialVersionUID(123L)
 trait SpellOrTrapCard extends Card {
   private var _isSet = false
 

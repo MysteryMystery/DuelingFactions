@@ -6,6 +6,7 @@ import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.{Board, Game
 object Card {
 }
 
+@SerialVersionUID(123L)
 trait Card {
 
   override def toString: String = s"$name "

@@ -4,6 +4,7 @@ import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.{Board, Game
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.{SpellCard, SpellOrTrapCard}
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.board.BoardSides.{BoardSide, MySide}
 
+@SerialVersionUID(123L)
 class ExampleSpell(override val owner: BoardSide) extends SpellCard with SpellOrTrapCard{
   /**
     *

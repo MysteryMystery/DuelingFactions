@@ -3,6 +3,7 @@ package me.mysterymystery.duelingfactions.apiv2.guiindependant.card
 import enums.MonsterPositions.{MonsterPosition, Attack, Defense}
 import enums.MonsterTypes.MonsterType
 
+@SerialVersionUID(123L)
 trait MonsterCard extends Card {
   private var _position = Attack
 
