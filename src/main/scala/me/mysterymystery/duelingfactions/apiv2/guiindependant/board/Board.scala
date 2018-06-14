@@ -10,6 +10,8 @@ import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.enums.FieldPo
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.hero.Hero
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.pimping.PimpedOption._
 import me.mysterymystery.duelingfactions.apiv2.guidependant.hero._
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.EventManager
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.events.cardevent.CardSummonedEvent
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.logging.Logger
 import scalafx.collections.ObservableBuffer
 
@@ -50,6 +52,7 @@ class Board (val side: BoardSides.BoardSide, val deck: Deck, val linkedGameContr
       if (_monsterZones(m) == null){
         card.position = position
         _monsterZones(m) = card
+        EventManager.get.fireEvent(CardSummonedEvent(card))
         return
       }
     }

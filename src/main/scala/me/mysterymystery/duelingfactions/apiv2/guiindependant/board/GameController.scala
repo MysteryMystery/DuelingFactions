@@ -6,7 +6,11 @@ import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.decks.StubDec
 import scalafx.collections.ObservableBuffer.Change
 import scalafx.collections.ObservableBuffer
 import BoardSides.{BoardSide, MySide, TheirSide}
+import me.mysterymystery.duelingfactions.DuelingFactions
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.Card
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.EventManager
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.events.cardevent.CardSummonedEvent
+import me.mysterymystery.duelingfactions.eventprocesses.ListenTo
 
 object GameController{
   private var _conn: GameController = null
@@ -37,7 +41,14 @@ class GameController {
 
   val game = new Game(this)
 
+  EventManager.get.registerListener(this)
+
   def sendFieldChange[T <: Card](changes: Seq[ObservableBuffer.Change[T]], typ: Class[_ <: Card], side: BoardSides.BoardSide): Unit = {
     game.sendFieldChange[T](changes, typ, side)
+  }
+
+  @ListenTo
+  def onCardPlay(e: CardSummonedEvent): Unit = {
+    DuelingFactions.playSound("SummonSound.wav")
   }
 }

@@ -8,7 +8,6 @@ import org.reflections.util.{ClasspathHelper, ConfigurationBuilder}
 
 import scala.collection.JavaConverters._
 
-//FIXME https://stackoverflow.com/questions/50702113/dynamically-instantiating-classes-scala
 package object cards {
   private val reflections: Reflections = new Reflections(
     new ConfigurationBuilder()

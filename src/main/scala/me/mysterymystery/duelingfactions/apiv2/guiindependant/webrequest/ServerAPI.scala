@@ -6,8 +6,14 @@ import net.liftweb.json.JsonAST.JObject
 import scalaj.http.Http
 import net.liftweb.json._
 
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
+
 object ServerAPI {
   import RequestParams.RequestParam
+
+  //Future
+  def heartBeat: Boolean = true
 
   def getAllClients = {
     me.mysterymystery.duelingfactions.apiv2.guiindependant.webrequest.ServerAPI.get(RequestParams.Clients)

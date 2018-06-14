@@ -7,6 +7,7 @@ import me.mysterymystery.duelingfactions.api.card.cardcollection.Deck
 import me.mysterymystery.duelingfactions.api.card.cardlist.ExampleCard
 import me.mysterymystery.duelingfactions.api.config.Config
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.config.Database
+import me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.EventManager
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.webrequest.ServerAPI.get
 import me.mysterymystery.duelingfactions.scene.{GameScene, MainMenuScene}
 import net.liftweb.json.JsonAST.{JArray, JField}
@@ -21,6 +22,7 @@ import net.liftweb.json._
 
 object DuelingFactions extends JFXApp {
   Database.init
+  EventManager.init
 
   stage = new PrimaryStage{
     title = "Dueling Factions"
