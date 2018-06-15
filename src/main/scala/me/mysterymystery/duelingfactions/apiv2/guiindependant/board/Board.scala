@@ -52,7 +52,7 @@ class Board (val side: BoardSides.BoardSide, val deck: Deck, val linkedGameContr
       if (_monsterZones(m) == null){
         card.position = position
         _monsterZones(m) = card
-        EventManager.get.fireEvent(CardSummonedEvent(card))
+        EventManager.get.fireEvent(new CardSummonedEvent(card))
         return
       }
     }

@@ -3,4 +3,8 @@ package me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.ev
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.Card
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.Event
 
-case class CardSummonedEvent (card: Card) extends Event
+class CardSummonedEvent (card: Card) extends Event
+
+object CardSummonedEvent {
+  def apply(card: Card): CardSummonedEvent = new CardSummonedEvent(card)
+}

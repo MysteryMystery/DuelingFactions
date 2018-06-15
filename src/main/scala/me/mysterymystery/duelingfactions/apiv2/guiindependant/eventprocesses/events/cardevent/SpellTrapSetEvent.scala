@@ -2,7 +2,5 @@ package me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.ev
 
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.SpellOrTrapCard
 
-class SpellTrapSetEvent (card: SpellOrTrapCard) extends CardSummonedEvent (card) {
-
-}
+final case class SpellTrapSetEvent (card: SpellOrTrapCard) extends CardSummonedEvent (card)
 

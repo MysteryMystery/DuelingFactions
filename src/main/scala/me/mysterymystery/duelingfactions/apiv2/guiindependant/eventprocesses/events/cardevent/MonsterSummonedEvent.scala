@@ -2,6 +2,4 @@ package me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.ev
 
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.card.MonsterCard
 
-class MonsterSummonedEvent (card: MonsterCard) extends CardSummonedEvent (card) {
-
-}
+final case class MonsterSummonedEvent (card: MonsterCard) extends CardSummonedEvent (card)
