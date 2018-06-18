@@ -33,7 +33,7 @@ object GameScene extends SceneBuilder {
     * Area to present lifepoints, turn count, who's turn it is.
     */
   val lifePointsArea: VBox = new VBox(){
-    minHeight = 50
+    prefHeight = 50
   }
 
   val newGame = new Game(new GameController)
@@ -62,20 +62,7 @@ object GameScene extends SceneBuilder {
         left = cardViewer
         center = new HBox(){
           children = Seq(/*boardField*/
-            newGame.visual,
-            new VBox(){
-              children = Seq(
-                new Button("Summon A card! (testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).summon(new ExampleMonster(MySide), MonsterPositions.Attack)
-                },
-                new Button("Summon A Spell! (testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).set(new ExampleSpell(MySide))
-                },
-                new Button("Draw a card! (Testing)"){
-                  onAction = (e: ActionEvent) => newGame.gameController.boards(MySide).hand.draw()
-                }
-              )
-            }
+            newGame.visual
           )
           styleClass ++= Seq("boardWrapper")
           alignmentInParent = Pos.Center

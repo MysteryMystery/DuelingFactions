@@ -12,7 +12,24 @@
 }
 
 .mainMenuButton {
-    -fx-background-color: rgba(32, 35, 247, 0.74);
+    /*-fx-background-color: rgba(32, 35, 247, 0.74);
     -fx-border-color: rgb(32, 35, 247);
-    -fx-border-width: 2px;
+    -fx-border-width: 2px;*/
+
+    -fx-background-color: transparent;
+    -fx-background-image: url("/skin/menuButton.png");
+    -fx-background-size: cover, auto;
+    -fx-background-repeat: no-repeat;
+    -fx-margin: 5px
+}
+
+.mainMenuScreen {
+    -fx-background-image: url("/skin/mainMenuTexture.png");
+    -fx-background-size: 256 256;
+}
+
+.mainMenuButtonVBox {
+    -fx-background-color: rgba(46, 212, 210, 0.4);
+    -fx-padding: 5px;
+    -fx-background-radius: 15px;
 }

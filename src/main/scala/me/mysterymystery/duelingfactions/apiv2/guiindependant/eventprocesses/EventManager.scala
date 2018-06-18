@@ -27,6 +27,10 @@ object EventManager {
 class EventManager {
   private var listeners: mutable.ListBuffer[(Any, List[Method])] = ListBuffer()
 
+  /**
+    *
+    * @param e Event to pass to all accepting listeners.
+    */
   def fireEvent(e: Event): Unit = {
     println(listeners.mkString("\n"))
     val eventType = e.getClass
@@ -62,24 +66,7 @@ class EventManager {
     * @param obj Object to be deregistered
     */
   def deregisterListener(obj: Any): Unit = {
-    listeners -= Tuple2(obj, annotationsScanner(obj.getClass).getMethodsAnnotatedWith(classOf[me.mysterymystery.duelingfactions.eventprocesses.ListenTo]).asScala.toList)
+    listeners -= Tuple2(obj, obj.getClass.getMethods.filter(_.isAnnotationPresent(classOf[ListenTo])).toList)
   }
 
-  private def annotationsScanner(clazz: Class[_]): Reflections = {
-    val className = clazz.getClass.getCanonicalName
-    println(className)
-
-    val filter: Predicate[String] = (input: String) => input.startsWith(className)
-
-    new Reflections(
-      new ConfigurationBuilder()
-        //.setUrls(ClasspathHelper.forPackage("me.mysterymystery.duelingfactions"))
-        .setUrls(ClasspathHelper.forClass(clazz))
-        .filterInputsBy(
-          new FilterBuilder()
-            .include(className)
-        )
-        .setScanners(new MethodAnnotationsScanner)
-    )
-  }
 }

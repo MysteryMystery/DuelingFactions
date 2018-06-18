@@ -12,6 +12,7 @@ import scalafx.scene.control.Button
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.{BorderPane, HBox, VBox}
 import me.mysterymystery.duelingfactions.apiv2.guiindependant.eventprocesses.events.menu.MainMenuEvent
+import scalafx.animation.Animation
 import scalafx.scene.media.MediaPlayer
 
 object MainMenuScene extends SceneBuilder {
@@ -21,19 +22,32 @@ object MainMenuScene extends SceneBuilder {
 
   override val get: Scene = new Scene() {
       root = new BorderPane() {
+        styleClass += "mainMenuScreen"
+        maxWidth = 400
+        maxHeight = 400
+        minWidth = 399
+        minHeight = 399
+
         top = new ImageView(new Image(new image.Image(getClass.getResourceAsStream("/skin/logo.png")))){
           fitWidth = 400
           fitHeight = 100
+          alignmentInParent = Pos.TopCenter
         }
         right = new VBox(){
-          prefWidth = 300
+          styleClass += "mainMenuButtonVBox"
+          prefWidth = 250
           children = Seq(
             new Button("Switch to game scene"){
+              prefWidth = Double.MaxValue
               styleClass ++= Seq("mainMenuButton")
               onAction = (e: event.ActionEvent) => DuelingFactions.changeScene(GameScene.get)
-              onMouseEntered = (e: MouseEvent) => EventManager.get.fireEvent(MainMenuEvent.ButtonHover(this))
+              onMouseEntered = (e: MouseEvent) => {
+                EventManager.get.fireEvent(MainMenuEvent.ButtonHover(this))
+
+              }
             },
             new Button("Switch to Deck Builder"){
+              prefWidth = Double.MaxValue
               styleClass ++= Seq("mainMenuButton")
               onAction = (e: event.ActionEvent) => DuelingFactions.changeScene(DeckBuilderScene.get)
               onMouseEntered = (e: MouseEvent) => EventManager.get.fireEvent(MainMenuEvent.ButtonHover(this))
